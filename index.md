@@ -11,10 +11,9 @@ permalink: /
 
 {: .fs-9 }
 
-Facial biometric authentication for web applications.
+Passwordless facial biometric authentication for web applications.
 {: .fs-6 .fw-300 }
 
-**Current Version: 1.0.13-beta.0**
 {: .label .label-green }
 
 [Get Started](./integration){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
@@ -37,16 +36,16 @@ Entry Web SDK enables **passwordless authentication** using facial biometrics wi
 
 ## Quick Links
 
-| Documentation | Description |
-|:--------------|:------------|
-| 🚀 [Integration Guide](./integration) | Complete setup and integration instructions |
-| ⚡ [Quick Reference](./quick-reference) | Copy-paste code snippets and lookup tables |
-| 🔧 [Troubleshooting](./troubleshooting) | Common issues, FAQs, and debugging tips |
-| 🔒 [Security](./security) | Security guidelines and best practices |
-| ⚠️ [Error Handling](./error-handling) | Error codes and handling strategies |
-| 📖 [Use Cases](./use-cases) | Common integration scenarios |
-| 📋 [Changelog](./changelog) | Version history and release notes |
-| 📄 [License](./license) | Software license terms |
+| Documentation                           | Description                                 |
+|:----------------------------------------|:--------------------------------------------|
+| 🚀 [Integration Guide](./integration)   | Complete setup and integration instructions |
+| ⚡ [Quick Reference](./quick-reference)  | Copy-paste code snippets and lookup tables  |
+| 🔧 [Troubleshooting](./troubleshooting) | Common issues, FAQs, and debugging tips     |
+| 🔒 [Security](./security)               | Security guidelines and best practices      |
+| ⚠️ [Error Handling](./error-handling)   | Error codes and handling strategies         |
+| 📖 [Use Cases](./use-cases)             | Common integration scenarios                |
+| 📋 [Changelog](./changelog)             | Version history and release notes           |
+| 📄 [License](./license)                 | Software license terms                      |
 
 ---
 
