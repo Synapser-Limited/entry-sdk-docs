@@ -53,11 +53,11 @@ Entry Web SDK enables **passwordless authentication** using facial biometrics wi
 
 ```bash
 # Configure GitHub Packages auth (once)
-echo "@synapser-limited:registry=https://npm.pkg.github.com" >> ~/.npmrc
+echo "@synapser-sdk-distribution:registry=https://npm.pkg.github.com" >> ~/.npmrc
 echo "//npm.pkg.github.com/:_authToken=YOUR_GITHUB_TOKEN" >> ~/.npmrc
 
 # Install the SDK
-npm install @synapser-limited/entry-web-sdk
+npm install @synapser-sdk-distribution/entry-web-sdk
 ```
 
 {: .note }
@@ -68,7 +68,7 @@ npm install @synapser-limited/entry-web-sdk
 ## Getting Started
 
 ```typescript
-import { EntrySDK, EntryApiEnvironment, EntrySDKError } from '@synapser-limited/entry-web-sdk';
+import { EntrySDK, EntryApiEnvironment, EntrySDKError } from '@synapser-sdk-distribution/entry-web-sdk';
 
 // Initialize SDK (provide your app name from Synapser)
 const entrySDK = EntrySDK.getInstance(
