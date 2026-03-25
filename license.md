@@ -26,9 +26,9 @@ The Entry Web SDK (the "Software") is a production-ready TypeScript/React librar
 **Distribution Model:**
 
 `#TODO: ASK DR ABOUT THIS PARAGRAPH. I THINK THE NPM PACKAGE SHOULD BE PUBLIC.`
-The Software is distributed exclusively via GitHub Packages under the scoped package name `@synapser-limited/entry-web-sdk` to authorized customers, partners, or organizations that have executed a separate commercial agreement or subscription order with Synapser. Access requires a valid GitHub Personal Access Token with `read:packages` scope and is restricted to entities approved by Synapser.
+The Software is distributed exclusively via GitHub Packages under the scoped package name `@synapser-sdk-distribution/entry-web-sdk` to authorized customers, partners, or organizations that have executed a separate commercial agreement or subscription order with Synapser. Access requires a valid GitHub Personal Access Token with `read:packages` scope and is restricted to entities approved by Synapser.
 
-- **Package Registry:** <https://github.com/Synapser-Limited/entry-web-sdk/pkgs/npm/entry-web-sdk>
+- **Package Registry:** <https://github.com/synapser-sdk-distribution/entry-web-sdk/pkgs/npm/entry-web-sdk>
 - **Installation Documentation:** <https://synapser-limited.github.io/entry-web-sdk-docs/>
 
 ---
