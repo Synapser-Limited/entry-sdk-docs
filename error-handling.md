@@ -117,7 +117,7 @@ class EntrySDKError extends Error {
 ### Basic Error Handling
 
 ```typescript
-import { EntrySDK, EntrySDKError, EntrySDKErrorCode, EntryApiEnvironment } from '@synapser-limited/entry-web-sdk';
+import { EntrySDK, EntrySDKError, EntrySDKErrorCode, EntryApiEnvironment } from '@synapser-sdk-distribution/entry-web-sdk';
 
 const sdk = EntrySDK.getInstance('MyApp', EntryApiEnvironment.Live);
 
@@ -278,7 +278,7 @@ try {
 
 ```typescript
 import React from 'react';
-import { EntrySDKError, EntrySDKErrorCode } from '@synapser-limited/entry-web-sdk';
+import { EntrySDKError, EntrySDKErrorCode } from '@synapser-sdk-distribution/entry-web-sdk';
 
 class EntrySDKErrorBoundary extends React.Component<
   { children: React.ReactNode },
