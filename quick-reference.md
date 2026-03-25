@@ -16,11 +16,11 @@ Essential code snippets and quick lookup tables.
 
 ```bash
 # Configure npm for GitHub Packages
-echo "@synapser-limited:registry=https://npm.pkg.github.com" >> ~/.npmrc
+echo "@synapser-sdk-distribution:registry=https://npm.pkg.github.com" >> ~/.npmrc
 echo "//npm.pkg.github.com/:_authToken=YOUR_GITHUB_TOKEN" >> ~/.npmrc
 
 # Install
-npm install @synapser-limited/entry-web-sdk
+npm install @synapser-sdk-distribution/entry-web-sdk
 ```
 
 ---
@@ -30,7 +30,7 @@ npm install @synapser-limited/entry-web-sdk
 ### Initialize SDK
 
 ```typescript
-import { EntrySDK, EntryApiEnvironment } from '@synapser-limited/entry-web-sdk';
+import { EntrySDK, EntryApiEnvironment } from '@synapser-sdk-distribution/entry-web-sdk';
 
 const sdk = EntrySDK.getInstance('your-app-name', EntryApiEnvironment.Live);
 ```
@@ -77,7 +77,7 @@ const users = await sdk.identifyUsersFromPhoto(base64PhotoData);
 ### Basic Pattern
 
 ```typescript
-import { EntrySDKError, EntrySDKErrorCode } from '@synapser-limited/entry-web-sdk';
+import { EntrySDKError, EntrySDKErrorCode } from '@synapser-sdk-distribution/entry-web-sdk';
 
 try {
   const user = await sdk.identifyUser(true, container);
@@ -201,7 +201,7 @@ interface EntryUser {
   <div id="entry-container"></div>
   
   <script type="module">
-    import { EntrySDK, EntryApiEnvironment } from '@synapser-limited/entry-web-sdk';
+    import { EntrySDK, EntryApiEnvironment } from '@synapser-sdk-distribution/entry-web-sdk';
     
     const sdk = EntrySDK.getInstance('my-app', EntryApiEnvironment.Live);
     const user = await sdk.identifyUser(true, document.getElementById('entry-container'));
@@ -215,7 +215,7 @@ interface EntryUser {
 ## React Quick Start
 
 ```tsx
-import { EntrySDK, EntryApiEnvironment, EntryUser, EntrySDKError } from '@synapser-limited/entry-web-sdk';
+import { EntrySDK, EntryApiEnvironment, EntryUser, EntrySDKError } from '@synapser-sdk-distribution/entry-web-sdk';
 import { useRef, useState } from 'react';
 
 function AuthButton() {
