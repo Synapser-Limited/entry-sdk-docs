@@ -250,7 +250,7 @@ const entrySDK = EntrySDK.getInstance(
 ### Step 4: User Registration
 
 ```typescript
-import { EntrySDK, EntrySDKError, EntrySDKErrorCode, EntryApiEnvironment } from '@synapser-limited/entry-web-sdk';
+import { EntrySDK, EntrySDKError, EntrySDKErrorCode, EntryApiEnvironment } from '@synapser-sdk-distribution/entry-web-sdk';
 
 // Register new user
 async function registerUser() {
@@ -372,7 +372,7 @@ import {
   EntrySDKError,
   EntrySDKErrorCode,
   EntryApiEnvironment 
-} from '@synapser-limited/entry-web-sdk';
+} from '@synapser-sdk-distribution/entry-web-sdk';
 
 const AuthComponent: React.FC = () => {
   const [user, setUser] = useState<EntryUser | null>(null);
@@ -726,7 +726,7 @@ The SDK provides a comprehensive typed error handling system with `EntrySDKError
 #### Basic Error Handling
 
 ```typescript
-import { EntrySDK, EntrySDKError, EntrySDKErrorCode, EntryApiEnvironment } from '@synapser-limited/entry-web-sdk';
+import { EntrySDK, EntrySDKError, EntrySDKErrorCode, EntryApiEnvironment } from '@synapser-sdk-distribution/entry-web-sdk';
 
 try {
   const sdk = EntrySDK.getInstance('your-app', EntryApiEnvironment.Live);
