@@ -2,55 +2,38 @@
 layout: default
 title: Troubleshooting
 nav_order: 8
-description: "Common issues, FAQs, and debugging tips for Entry Web SDK"
 ---
 
-# Troubleshooting & FAQ
+# Web SDK — Troubleshooting
 
-Common issues and solutions for Entry Web SDK integration.
-{: .fs-6 .fw-300 }
+Common issues and solutions for the Entry Web SDK.
 
----
-
-## Quick Diagnostics
-
-{: .important }
-> Before troubleshooting, ensure you have:
->
-> - HTTPS enabled (required for camera access)
-> - A valid app name registered with Synapser
-> - A supported browser (Chrome 80+, Firefox 75+, Safari 13+, Edge 80+)
+> **Before troubleshooting, confirm:**
+> - The page is served over **HTTPS** (required for camera access)
+> - Your app name is registered with the Entry team
+> - You are using a supported browser: Chrome 80+, Firefox 75+, Safari 13+, Edge 80+
 
 ---
 
-## Common Issues
+## Camera not working
 
-### Camera Not Working
-
-{: .warning }
-> The SDK requires HTTPS. Camera access will not work on `http://` URLs (except `localhost`).
-
-**Symptoms:**
-
-- `CAMERA_ACCESS_DENIED` error
-- Black screen where camera should appear
-- Browser doesn't prompt for camera permission
+**Symptoms:** `CAMERA_ACCESS_DENIED` error, black screen, browser never prompts for camera permission.
 
 **Solutions:**
 
-1. **Check HTTPS** - Ensure your site uses `https://`
-2. **Check permissions** - Click the lock icon in the address bar → Site settings → Camera → Allow
-3. **Check other apps** - Close other applications using the camera
-4. **Try incognito mode** - Extensions can block camera access
+1. **Check HTTPS** — Camera access requires `https://`. Local development on `localhost` is the only exception.
+2. **Check browser permissions** — Click the lock icon in the address bar → Site settings → Camera → Allow.
+3. **Close other camera apps** — Another application may be holding the camera.
+4. **Try incognito mode** — Browser extensions can block camera access.
 
 ```typescript
-// Check camera availability before calling SDK
-async function checkCameraAvailable(): Promise<boolean> {
+// Pre-flight camera check before invoking the SDK
+async function isCameraAvailable(): Promise<boolean> {
   try {
     const stream = await navigator.mediaDevices.getUserMedia({ video: true });
     stream.getTracks().forEach(track => track.stop());
     return true;
-  } catch (e) {
+  } catch {
     return false;
   }
 }
@@ -58,42 +41,32 @@ async function checkCameraAvailable(): Promise<boolean> {
 
 ---
 
-### Liveness Check Failing
+## Liveness check failing
 
-**Symptoms:**
-
-- `LIVENESS_CHECK_FAILED` error
-- User passes camera check but fails liveness
+**Symptoms:** `LIVENESS_CHECK_FAILED` error — user passes camera but fails liveness.
 
 **Solutions:**
 
-1. **Improve lighting** - Face should be evenly lit, avoid backlighting
-2. **Remove obstructions** - Remove glasses, hats, masks if possible
-3. **Steady position** - Keep face centered and still
-4. **Clean camera lens** - Wipe camera lens clean
+1. **Improve lighting** — Even front-facing light; avoid strong backlight.
+2. **Remove obstructions** — Remove glasses, hats, masks where possible.
+3. **Stay centred and still** — Keep face in the frame guide.
+4. **Clean the camera lens.**
 
-{: .note }
-> The liveness check uses AWS Rekognition which is iBeta Level 2 certified. It's designed to reject photos and videos of faces.
+> The liveness check uses AWS Rekognition (iBeta Level 2 certified). It is designed to reject photos and recorded videos.
 
 ---
 
-### Network Errors
+## Network errors
 
-**Symptoms:**
-
-- `NETWORK_ERROR` or `TIMEOUT_ERROR`
-- SDK hangs during initialization
+**Symptoms:** `NETWORK_ERROR` or `TIMEOUT_ERROR`, SDK hangs during initialisation.
 
 **Solutions:**
 
-1. **Check connectivity** - Verify internet connection
-2. **Check firewall** - Ensure these domains are accessible:
-   - `*.amazonaws.com`
-   - `*.synapser.com`
-3. **Retry with backoff** - Implement exponential backoff
+1. **Check connectivity** — Verify internet access.
+2. **Check firewall/proxy** — Ensure these domains are reachable: `*.amazonaws.com`, `*.entrymfa.com`.
+3. **Implement retry logic** — See the [Error Handling guide](web-error-handling.md) for exponential backoff patterns.
 
 ```typescript
-// Network check before SDK initialization
 if (!navigator.onLine) {
   showError('Please check your internet connection');
   return;
@@ -102,117 +75,98 @@ if (!navigator.onLine) {
 
 ---
 
-### Invalid Configuration
+## Invalid configuration
 
-**Symptoms:**
-
-- `INVALID_CONFIGURATION` or `INVALID_APP_NAME` error
-- SDK fails during `getInstance()`
+**Symptoms:** `INVALID_CONFIGURATION` or `INVALID_APP_NAME` on `getInstance()`.
 
 **Solutions:**
 
-1. **Verify app name** - Must match exactly what's registered with Synapser
-2. **Check environment** - Use correct environment (`Test`, `Demo`, `Live`)
-3. **Check domain whitelist** - Your domain must be whitelisted by Synapser
+1. **Verify the app name** — Must match exactly what the Entry team registered.
+2. **Check environment** — Confirm you are pointing to `Test` or `Live` as appropriate.
+3. **Check domain whitelist** — Your domain must be registered with the Entry team.
 
-{: .highlight }
-> Contact [support@synapser.com](mailto:support@synapser.com) to verify your app configuration.
+Contact [support@synapser.com](mailto:support@synapser.com) to verify your app configuration.
 
 ---
 
-### User Not Found
+## User not found
 
-**Symptoms:**
+**Symptoms:** `USER_NOT_FOUND` when `registerIfNotFound` is `false`.
 
-- `USER_NOT_FOUND` error when `registerIfNotFound` is `false`
+This is expected behaviour when the user hasn't registered yet. Either:
 
-**Solution:**
-
-This is expected behavior when the user hasn't registered. Either:
-
-- Set `registerIfNotFound: true` to allow registration
-- Direct users to a registration flow first
+- Set `registerIfNotFound: true` to allow registration during the same flow.
+- Direct the user to a separate registration step first.
 
 ```typescript
-// Handle user not found gracefully
 try {
-  const user = await sdk.identifyUser(false, container);
+  await sdk.identifyUser(false, container);
 } catch (error) {
-  if (error instanceof EntrySDKError && error.code === 'USER_NOT_FOUND') {
-    // Redirect to registration or enable registration
-    const user = await sdk.identifyUser(true, container);
+  if (error instanceof EntrySDKError && error.code === EntrySDKErrorCode.USER_NOT_FOUND) {
+    // Fall through to registration
+    await sdk.identifyUser(true, container);
   }
 }
 ```
 
 ---
 
-## Framework-Specific Issues
+## Framework-specific issues
 
-### React: Component Unmounts During Flow
+### React: component unmounts during flow
 
-**Problem:** SDK UI disappears unexpectedly
+**Problem:** The SDK overlay disappears unexpectedly.
 
-**Solution:** Ensure the container element persists during the authentication flow:
+**Solution:** Keep the container element always mounted; use `display` to show/hide it.
 
 ```tsx
-// ❌ Wrong - container may unmount
+// ❌ Wrong — container may unmount mid-flow
 {showAuth && <div id="auth-container" />}
 
-// ✅ Correct - container always exists
+// ✅ Correct — container always in the DOM
 <div id="auth-container" style={{ display: showAuth ? 'block' : 'none' }} />
 ```
 
-### React: Multiple SDK Instances
+### React: multiple SDK instances
 
-**Problem:** `SDK already initialized with app 'X'` error
+**Problem:** `SDK already initialized with app 'X'` error.
 
-**Solution:** The SDK is a singleton. Don't call `getInstance()` with different app names:
+**Solution:** The SDK is a singleton. Use the same app name across the component tree, or call `EntrySDK.reset()` before re-initialising.
 
 ```typescript
-// ❌ Wrong
-const sdk1 = EntrySDK.getInstance('app1', env);
-const sdk2 = EntrySDK.getInstance('app2', env); // Error!
-
-// ✅ Correct - use same app name or reset first
+// ✅ Reset before switching app
 EntrySDK.reset();
-const sdk = EntrySDK.getInstance('app2', env);
+const sdk = EntrySDK.getInstance('new-app', env);
 ```
 
-### Vue: Reactivity Issues
+### Vue: reactivity not updating
 
-**Problem:** User data not updating in Vue components
+**Problem:** User data returned from the SDK doesn't trigger Vue reactivity.
 
-**Solution:** Ensure you're using Vue's reactivity system:
+**Solution:** Assign the result to a `ref`.
 
 ```vue
 <script setup>
 import { ref } from 'vue';
-
 const user = ref(null);
 
 async function authenticate() {
-  const result = await sdk.identifyUser(true, container);
-  user.value = result; // Triggers reactivity
+  user.value = await sdk.identifyUser(true, container); // triggers reactivity
 }
 </script>
 ```
 
 ---
 
-## Debugging Tips
-
-### Enable Debug Logging
+## Debugging
 
 ```typescript
+// Enable debug logging (Test environment only)
 const sdk = EntrySDK.getInstance('your-app', EntryApiEnvironment.Test, {
-  enableDebugLogging: true
+  enableDebugLogging: true,
 });
-```
 
-### Check Error Details
-
-```typescript
+// Full error details
 catch (error) {
   if (error instanceof EntrySDKError) {
     console.log('Code:', error.code);
@@ -225,69 +179,46 @@ catch (error) {
 }
 ```
 
-### Browser DevTools
-
-1. **Console** - Check for SDK error messages
-2. **Network** - Verify API calls are succeeding
-3. **Application** - Check sessionStorage for `browserSessionId`
+**Browser DevTools tips:**
+- **Console** — Check for SDK error messages and warnings
+- **Network** — Verify API calls complete successfully
+- **Application → Session Storage** — Check for `browserSessionId`
 
 ---
 
 ## FAQ
 
-### Is HTTPS required?
+**Is HTTPS required?**
+Yes. Camera access requires a secure context. `localhost` is the only exception during development.
 
-{: .important }
-> **Yes.** Camera access requires a secure context (HTTPS). The only exception is `localhost` for development.
+**Which browsers are supported?**
 
-### Which browsers are supported?
+| Browser | Minimum version |
+| ------- | --------------- |
+| Chrome  | 80+             |
+| Firefox | 75+             |
+| Safari  | 13+             |
+| Edge    | 80+             |
 
-| Browser | Minimum Version |
-|---------|-----------------|
-| Chrome | 80+ |
-| Firefox | 75+ |
-| Safari | 13+ |
-| Edge | 80+ |
+**Can I use this in a mobile app?**
+The Web SDK is for browser-based applications. For native mobile apps see the [iOS](ios.md) and [Android](android.md) integration guides.
 
-### Can I use the SDK in a mobile app?
-
-The Web SDK is for browser-based applications. For native mobile apps, contact Synapser about:
-
-- Entry iOS SDK
-- Entry Android SDK
-
-### How do I handle users on unsupported devices?
-
-```typescript
-try {
-  const user = await sdk.identifyUser(true, container);
-} catch (error) {
-  if (error.code === 'DEVICE_NOT_SUPPORTED' || error.code === 'BROWSER_NOT_SUPPORTED') {
-    showFallbackAuth(); // Show alternative authentication
-  }
-}
-```
-
-### Can users register on multiple devices?
-
+**Can users authenticate from multiple devices?**
 Yes. Each device gets a unique `deviceId`. The same user can authenticate from multiple devices.
 
-### How do I delete a user's data (GDPR)?
+**How do I delete a user's data (GDPR right to erasure)?**
 
 ```typescript
 await sdk.deleteUser(user.entryUserId);
 ```
 
-{: .note }
-> This permanently removes the user's biometric template and profile data.
+**How do I handle unsupported devices gracefully?**
 
----
-
-## Still Need Help?
-
-Contact [support@synapser.com](mailto:support@synapser.com) with:
-
-- SDK version
-- Browser and version
-- Error code and message
-- Steps to reproduce
+```typescript
+catch (error) {
+  if (error.code === EntrySDKErrorCode.DEVICE_NOT_SUPPORTED ||
+      error.code === EntrySDKErrorCode.BROWSER_NOT_SUPPORTED) {
+    showFallbackAuthentication();
+  }
+}
+```
