@@ -4,20 +4,28 @@ title: Changelog
 nav_order: 10
 ---
 
-# Changelog
+# Web SDK Release Notes
 
-All notable changes to the Entry Web SDK will be documented in this file.
-
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+Release notes for `@synapser-sdk-distribution/entry-web-sdk` (npm, GitHub Packages).
 
 ---
 
-## Version Categories
+## 3.1.5 — 21 April 2026
 
-- **Added** - New features
-- **Changed** - Changes in existing functionality  
-- **Deprecated** - Soon-to-be removed features
-- **Removed** - Removed features
-- **Fixed** - Bug fixes
-- **Security** - Vulnerability fixes
+**Channel:** `@latest` (stable)
+
+### Notes
+
+Initial release notes entry. The SDK changelog (`CHANGELOG.md`) was not maintained prior to this version. From this release, changes will be recorded here on each publish.
+
+### Installation
+
+```bash
+npm install @synapser-sdk-distribution/entry-web-sdk
+# or pin to this version
+npm install @synapser-sdk-distribution/entry-web-sdk@3.1.5
+```
+
+---
+
+*Earlier versions are not documented here. For the full git history, see the [entry-web-sdk repository](https://github.com/synapser-sdk-distribution/entry-web-sdk).*
