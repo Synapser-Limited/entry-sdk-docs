@@ -10,14 +10,18 @@ Essential snippets and lookup tables.
 
 ## Installation
 
-```bash
-# Configure npm for GitHub Packages (once per machine)
-echo "@synapser-sdk-distribution:registry=https://npm.pkg.github.com" >> ~/.npmrc
-echo "//npm.pkg.github.com/:_authToken=YOUR_GITHUB_PAT" >> ~/.npmrc
+```ini
+# Save in ~/.npmrc
+@synapser-sdk-distribution:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}
+
+# Then set NODE_AUTH_TOKEN in your shell or secret manager
 
 # Install
 npm install @synapser-sdk-distribution/entry-web-sdk
 ```
+
+Do not store your GitHub PAT directly in `~/.npmrc`, commit it to source control, or paste it into shell commands that may be saved in shell history.
 
 ---
 
@@ -212,7 +216,7 @@ function AuthButton() {
 - [ ] HTTPS enabled (required for camera)
 - [ ] App name registered with the Entry team
 - [ ] Domain whitelisted
-- [ ] GitHub PAT with `read:packages` scope configured in `~/.npmrc`
+- [ ] `NODE_AUTH_TOKEN` set with a GitHub token that has `read:packages` scope
 - [ ] Node.js 18+
 - [ ] Supported browser (Chrome 80+, Firefox 75+, Safari 13+, Edge 80+)
 - [ ] Container element present in the DOM
