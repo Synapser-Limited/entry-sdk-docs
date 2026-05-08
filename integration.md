@@ -19,10 +19,14 @@ This guide covers integrating the Entry Web SDK into a web application for biome
 
 Configure GitHub Packages authentication once per machine:
 
-```bash
-echo "@synapser-sdk-distribution:registry=https://npm.pkg.github.com" >> ~/.npmrc
-echo "//npm.pkg.github.com/:_authToken=YOUR_GITHUB_PAT" >> ~/.npmrc
+```ini
+@synapser-sdk-distribution:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}
 ```
+
+Save that in `~/.npmrc`, then set `NODE_AUTH_TOKEN` in your shell or secret manager before running `npm install`.
+
+> Do not store your GitHub PAT directly in `~/.npmrc`, commit it to source control, or paste it into shell commands that may be saved in shell history.
 
 Then install:
 
@@ -79,8 +83,7 @@ async function authenticate() {
       true,      // registerIfNotFound
       container
     );
-    console.log('User identified:', user);
-    // user.id, user.name, etc.
+    console.log('User identified:', obfuscatePII(user));
   } catch (error) {
     if (error instanceof EntrySDKError) {
       handleError(error);
