@@ -14,7 +14,7 @@ Entry is a **biometric identity verification SDK**. It is a **UI component** —
 ## Key facts
 
 - Distributed as a **Swift Package Manager binary** via a private GitHub repository
-- SDK is a shared singleton — configure once via `EntrySDK.shared.configure()`
+- SDK is a shared singleton — configure once via `EntrySDKClient.shared.configure()`
 - Async/await API — all public methods are `async throws`
 - Errors conform to a typed protocol with an error code — not generic `Error`
 - Requires a **physical device** with a front camera — the iOS simulator is not supported
@@ -53,7 +53,7 @@ Call `configure` once in your `AppDelegate` or app entry point:
 ```swift
 import EntrySDK
 
-EntrySDK.shared.configure(
+EntrySDKClient.shared.configure(
     appName: "your-app-name",  // MUST match the name registered with the Entry team
     environment: .test          // .test for development, .live for production
 )
@@ -72,7 +72,7 @@ Standard flow. If the user is not recognised, they are registered automatically.
 
 ```swift
 do {
-    let user = try await EntrySDK.shared.identifyUser(
+    let user = try await EntrySDKClient.shared.identifyUser(
         registerIfNotFound: true,
         presenter: self   // the UIViewController presenting the SDK UI
     )
@@ -88,7 +88,7 @@ do {
 Throws if the user is not already registered.
 
 ```swift
-let user = try await EntrySDK.shared.identifyUser(
+let user = try await EntrySDKClient.shared.identifyUser(
     registerIfNotFound: false,
     presenter: self
 )
@@ -137,7 +137,7 @@ func handleEntryError(_ error: Error) {
 - **Do not use `.live` during development** — always use `.test` to avoid affecting production data
 - **Do not test on the simulator** — liveness requires a physical device with a front camera
 - **Do not forget to accept the GitHub org invitation** — Xcode cannot resolve the package until you accept it
-- **Do not configure the SDK multiple times** — call `configure()` once at app startup, not before each `identifyUser()` call
+- **Do not configure the SDK multiple times** — call `configure()` once at app startup, not before each `identifyUser()` call- **Do not use `EntrySDK.shared`** — the correct class is `EntrySDKClient.shared`
 
 ## Upgrading the SDK
 
