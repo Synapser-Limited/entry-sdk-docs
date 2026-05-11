@@ -2,6 +2,7 @@
 layout: default
 title: Web Troubleshooting
 nav_order: 6
+parent: Integration Guides
 ---
 
 # Web SDK — Troubleshooting
