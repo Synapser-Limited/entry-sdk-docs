@@ -2,6 +2,7 @@
 layout: default
 title: Web Quick Reference
 nav_order: 2
+parent: Integration Guides
 ---
 
 # Web SDK — Quick Reference
