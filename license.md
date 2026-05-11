@@ -1,106 +1,215 @@
 ---
 layout: default
 title: License
-nav_order: 11
+nav_order: 12
 ---
 
-# Proprietary Software License
+# PROPRIETARY SOFTWARE LICENSE
 
-**Entry Web SDK**  
-Copyright © 2025 Synapser Limited. All rights reserved.
+**Entry Web SDK**
 
----
+**Copyright © 2025–2026 Synapser Limited. All rights reserved.**
 
-## BACKGROUND AND PURPOSE
+**Version 1.1 – February 2026**
 
-The Entry Web SDK (the "Software") is a production-ready TypeScript/React library developed and owned by Synapser Limited ("Synapser", "we", "us" or "our"). The Software provides secure biometric authentication capabilities using AWS services (Amplify, Cognito, and Rekognition). It enables client applications to integrate facial recognition and active liveness detection for user identification and registration.
+## CONTENTS
 
-**Key SDK Capabilities:**
+## 1. BACKGROUND AND PURPOSE
 
-- Biometric user registration and identification workflows
-- Active liveness detection to prevent spoofing (photo, video, mask, or other presentation attacks)
-- Integration with AWS Rekognition for configurable confidence thresholds (default: 80% liveness, 95% match)
-- End-to-end AES-256-GCM encryption for data in transit
-- No raw biometric data storage – only mathematical face templates are processed and matched
+1.1 The Entry Web SDK (the “Software”) is a proprietary software development kit owned by Synapser Limited (“Synapser”).
+1.2 The Software provides biometric authentication capabilities, including facial
+recognition and active liveness detection, for integration into applications developed and controlled by the Licensee.
+1.3 The Software provides technical verification signals only. All business logic, enrolment criteria, thresholds, and consequences of verification outcomes are determined exclusively by the Licensee.
 
-**Distribution Model:**
+## 2. DISTRIBUTION MODEL
 
-`#TODO: ASK DR ABOUT THIS PARAGRAPH. I THINK THE NPM PACKAGE SHOULD BE PUBLIC.`
-The Software is distributed exclusively via GitHub Packages under the scoped package name `@synapser-sdk-distribution/entry-web-sdk` to authorized customers, partners, or organizations that have executed a separate commercial agreement or subscription order with Synapser. Access requires a valid GitHub Personal Access Token with `read:packages` scope and is restricted to entities approved by Synapser.
+The Software is distributed exclusively via GitHub Packages under @synapser-limited/entry-web-sdk, and is accessible only to authorised entities pursuant to a written commercial order or subscription (“Order”).
 
-- **Package Registry:** <https://github.com/synapser-sdk-distribution/entry-web-sdk/pkgs/npm/entry-web-sdk>
-- **Installation Documentation:** <https://synapser-limited.github.io/entry-sdk-docs/>
+## 3. ACCEPTANCE AND BINDING EFFECT
 
----
+By installing, accessing, or using the Software, you confirm that you are authorised to bind the Licensee and agree to this Licence. If you do not agree, do not use the Software.
 
-## IMPORTANT NOTICE
+## 4. GRANT OF LICENSE
 
-This Software and associated documentation files (collectively, the "Software") are the proprietary and confidential property of Synapser Limited. Unauthorized use, reproduction, or distribution is strictly prohibited and may result in civil and criminal liability.
+4.1 Synapser grants the Licensee a limited, non-exclusive, non-transferable, non-
+sublicensable licence, during the term of the applicable Order, to use the Software solely as integrated into the Licensee’s applications and in accordance with documentation and authorised scope.
+4.2 All rights not expressly granted are reserved.
 
-## GRANT OF LICENSE
+## 5 DATA PROTECTION AND BIOMETRIC PROCESSING
 
-Subject to your compliance with this License Agreement and any separate commercial agreement or subscription order executed between you (the "Licensee") and Synapser (the "Order"), Synapser grants you a limited, non-exclusive, non-transferable, non-sublicensable license during the term of the Order to:
+## 5.1 Roles
 
-(a) install and use the Software solely in object code form as an integrated component within your internal or customer-facing applications (the "Licensee Application");
+For purposes of POPIA, GDPR, and equivalent data protection laws:
+i. Licensee acts as Responsible Party / Controller
+ii. Synapser acts solely as Operator / Processor
+Refer to Annexure A for How Synapser Handles Personal and Biometric Data.
+5.2 Allocation of Responsibility
 
-(b) make a reasonable number of copies of the Software solely for backup, archival, and testing purposes; and
+## The Licensee
 
-(c) use the Software for development, testing, and production deployment of the Licensee Application, provided such use is consistent with the documentation and the permitted scope set out in the Order.
+i. determines whether biometric processing is used;
+ii. determines enrolment criteria, thresholds, decision logic, and outcomes;
+iii. determines purposes, retention periods, and user-facing disclosures.
+Synapser processes data solely on documented instructions to provide the Software.
 
-This license is granted only to the specific entity named in the Order and only for the number of installations, users, or other metrics expressly authorized therein. Any use beyond the scope of the Order requires a separate written agreement.
+## 5.3 Lawful Basis
 
-## RESTRICTIONS
+The Licensee represents and warrants that it has identified and documented a lawful basis under applicable law, including Article 9 GDPR where required, for biometric processing.
 
-You may NOT, without Synapser's prior written authorization:
+## 5.4 No Direct End-User Relationship
 
-- Copy (except as expressly permitted above), modify, adapt, translate, create derivative works of, reverse engineer, decompile, disassemble, or otherwise attempt to discover the source code of the Software;
-- Distribute, sublicense, lease, rent, loan, sell, or otherwise transfer or make available the Software (or any portion thereof) to any third party;
-- Remove, obscure, or alter any proprietary notices, labels, trademarks, or copyright statements on or in the Software;
-- Use the Software in any manner that violates applicable export control laws, sanctions regimes, or biometric data processing regulations (including POPIA in South Africa, GDPR in the EU/UK, and applicable US state biometric privacy laws);
-- Use the Software for any unlawful purpose, to infringe third-party rights, or in any application where failure of the Software could reasonably be expected to result in death, personal injury, or severe property or environmental damage ("High-Risk Use");
-- Circumvent, disable, or otherwise interfere with security-related features of the Software, including liveness detection thresholds or encryption mechanisms.
+Synapser has no direct relationship with end users and does not respond to data subject requests except via the Licensee.
 
-## OWNERSHIP
+## 5.5 Sub-processing
 
-Synapser retains all right, title, and interest in and to the Software, including all intellectual property rights. This license does not constitute a sale of the Software or any portion thereof. All rights not expressly granted are reserved.
+Licensee authorises Synapser to engage sub-processors as necessary to provide the
+Software, subject to applicable safeguards.
 
-## SUPPORT AND MAINTENANCE
+## 6 RESTRICTIONS
 
-Support and maintenance (including bug fixes, updates, and new versions) are provided only under a separate support agreement or as expressly stated in the Order. Synapser has no obligation to provide support for any modified or unauthorized use of the Software.
+The Licensee may not:
+i. reverse engineer, decompile, or derive source code;
+ii. distribute or sublicense the Software;
+iii. circumvent security or liveness mechanisms;
+iv. use the Software for unlawful or High-Risk Uses;
+v. use the Software in violation of biometric or export control laws.
 
-## WARRANTY DISCLAIMER
+## 7 OWNERSHIP
 
-THE SOFTWARE IS PROVIDED "AS IS" AND "AS AVAILABLE", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE, NON-INFRINGEMENT, OR THAT THE SOFTWARE WILL BE ERROR-FREE, SECURE, OR UNINTERRUPTED. SYNAPSER DOES NOT WARRANT THAT THE SOFTWARE WILL MEET LICENSEE'S REQUIREMENTS OR THAT ANY BIOMETRIC MATCHING OR LIVENESS DETECTION WILL BE 100% ACCURATE OR ERROR-FREE. LICENSEE ASSUMES ALL RISK ARISING FROM USE OF THE SOFTWARE, INCLUDING RISK OF INACCURATE IDENTITY VERIFICATION.
+Synapser retains all right, title, and interest in the Software and all related intellectual property. This Licence does not constitute a sale.
 
-## LIMITATION OF LIABILITY
+## 8 SUPPORT AND UPDATES
 
-TO THE MAXIMUM EXTENT PERMITTED BY LAW, IN NO EVENT SHALL SYNAPSER OR ITS AFFILIATES, LICENSORS, OR SUPPLIERS BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, PUNITIVE, OR EXEMPLARY DAMAGES (INCLUDING LOSS OF PROFITS, DATA, GOODWILL, BUSINESS INTERRUPTION, OR SECURITY BREACHES), WHETHER ARISING IN CONTRACT, TORT (INCLUDING NEGLIGENCE), STRICT LIABILITY, OR OTHERWISE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGES. SYNAPSER'S TOTAL AGGREGATE LIABILITY ARISING OUT OF OR RELATED TO THIS LICENSE SHALL NOT EXCEED THE FEES PAID BY LICENSEE TO SYNAPSER UNDER THE APPLICABLE ORDER IN THE TWELVE (12) MONTH PERIOD IMMEDIATELY PRECEDING THE EVENT GIVING RISE TO THE CLAIM.
+Support and service levels are provided only if expressly agreed in writing. No SLA is implied.
 
-## TERM AND TERMINATION
+## 9 DISCLAIMER OF WARRANTIES
 
-This license commences on the earlier of (i) your first installation or use of the Software or (ii) the effective date of the Order and continues for the term specified in the Order (or until terminated earlier). Synapser may terminate this license immediately upon written notice if Licensee breaches any material provision and fails to cure within thirty (30) days (or immediately in case of breach of restrictions or High-Risk Use). Upon termination or expiry, Licensee must cease all use of the Software, delete or destroy all copies, and certify such destruction upon request.
+THE SOFTWARE IS PROVIDED “AS IS” AND “AS AVAILABLE”. SYNAPSER MAKES NO WARRANTIES, INCLUDING REGARDING BIOMETRIC ACCURACY, SECURITY, OR FITNESS FOR A PARTICULAR PURPOSE
 
-## GOVERNING LAW
+## 10 LIMITATION OF LIABILITY
 
-This License Agreement shall be governed by and construed in accordance with the laws of the Republic of South Africa, without regard to its conflict of laws principles. The parties submit to the non-exclusive jurisdiction of the High Court of South Africa (Western Cape Division, Cape Town) for any dispute arising out of or in connection with this Agreement. Notwithstanding the foregoing, Synapser may seek injunctive or equitable relief in any court of competent jurisdiction.
+To the maximum extent permitted by law, Synapser’s aggregate liability is limited to fees paid under the applicable Order in the twelve (12) months preceding the claim.
 
-## CONTACT INFORMATION
+## 11 TERM AND TERMINATION
 
-Synapser Limited  
-132 Haygarth Road, Kloof, 3610  
-Email: <support@synapser.com>  
-Website: <https://www.synapser.com/entry-mfa>
+This Licence continues for the term of the Order. Synapser may suspend or terminate access immediately for material breach, security risk, or unlawful use.
+Upon termination, all use must cease and copies be destroyed.
 
----
+## 12 GOVERNING LAW
 
-**For licensing inquiries, please contact:** <support@synapser.com>
+This Licence is governed by the laws of the Republic of South Africa. Synapser may seek injunctive relief in any competent jurisdiction.
 
----
+## 13 ORDER OF PRECEDENCE
 
-## ACCEPTANCE
+This License applies subject to any applicable Enterprise Order and Data Processing
+Addendum executed between Synapser and the Licensee.
+In the event of any conflict or inconsistency, the following order of precedence shall apply:
+a) the applicable Enterprise Order and Data Processing Addendum;
+b) this License;
+c) the Synapser Terms of Use; and
+d) the Synapser Privacy Policy and Cookie Policy.
+This License governs use of the Software notwithstanding any general website terms, except
+to the extent expressly stated otherwise.
 
-By installing, copying, accessing, or using the Software, you acknowledge that you have read, understood, and agree to be bound by this License Agreement. If you do not agree, do not install or use the Software.
+## CONTACT
 
----
+## Synapser Limited
 
-**Version:** 1.0 – February 2026
+<support@synapser.com>
+<https://www.synapser.com/entry-mfa>
+
+## ANNEXURE A: DATA PROTECTION OVERVIEW: HOW SYNAPSER HANDLES PERSONAL AND BIOMETRIC DATA
+
+_Last updated: February 2026_  
+Synapser takes the protection of personal and biometric information seriously. This
+overview explains, at a high level, how personal data is handled across Synapser platforms and products, including when Synapser technology is used by customers in their own applications.  
+
+This Annexure is provided for transparency and informational purposes only. It does not create contractual obligations, amend or override the terms of this License, the Synapser Terms of Use, Privacy Policy, Cookie Policy, or any applicable Enterprise Order or Data Processing Addendum
+
+In the event of any inconsistency between this Annexure and any binding agreement
+between the parties, the terms of the applicable Enterprise Order, Data Processing
+Addendum, or software license (as applicable) shall prevail.
+
+**Our Role Depends on the Product Context**
+
+Synapser operates in two distinct data-processing contexts:
+
+a) Synapser-Operated Platforms and Apps
+When you use a Synapser-operated website or application (such as Entry, SecureUs, or Gain For Me), Synapser acts as the Responsible Party / Controller and processes personal information in accordance with our Privacy Policy.
+
+b) Customer-Integrated SDKs and Software
+When Synapser software development kits (SDKs), including the Entry Web SDK, are
+integrated into a customer’s own application or system:
+
+- The customer is the Responsible Party / Controller.
+- Synapser acts solely as an Operator / Processor, processing data only on the
+customer’s documented instructions.
+- The customer determines how and why biometric verification is used, including
+enrolment rules, decision logic, and outcomes.
+
+**Biometric and Special Category Data**
+
+Some Synapser technologies involve biometric data (such as facial recognition and liveness
+detection). Biometric data is classified as:
+
+- Special Personal Information under POPIA, and
+- Special Category Data under the GDPR.
+
+Where biometric processing occurs:
+
+- it is used only for identity verification purposes,
+- strong encryption and security safeguards are applied, and
+- customers are responsible for ensuring a lawful basis (including explicit consent
+where required).
+
+**Lawful Processing and Compliance**
+
+Synapser is committed to compliance with applicable data protection laws, including:
+
+- the South African Protection of Personal Information Act (POPIA), and
+- the EU / UK General Data Protection Regulation (GDPR).
+
+Customers using Synapser SDKs are responsible for:
+
+- providing legally compliant notices to end users,
+- identifying and documenting an appropriate lawful basis for processing, and
+- responding to data subject requests.
+
+## Security Safeguards
+
+Synapser implements appropriate technical and organizational measures to protect
+personal information, including:
+
+- encryption of data in transit,
+- secure cloud infrastructure,
+- restricted access controls, and
+- ongoing monitoring of security risks.
+
+No biometric system is infallible, and customers remain responsible for how verification results are used within their applications.
+
+**Sub-Processors and Cloud Services**
+
+To deliver our services, Synapser may rely on trusted third-party infrastructure and service
+providers (such as cloud hosting and identity verification components). Where required,
+contractual safeguards are in place to protect personal data.
+
+**International Data Transfers**
+
+Personal information may be processed or stored outside a user’s country. Where
+international transfers occur, Synapser ensures that appropriate safeguards are
+implemented in line with applicable data protection laws.
+
+**Enterprise Customers and DPAs**
+
+Enterprise customers may enter into a Data Processing Addendum (DPA) with Synapser that reflects the requirements of Article 28 of the GDPR and equivalent POPIA provisions. This governs processing responsibilities, security measures, and cooperation obligations in more detail.
+
+## More Information
+
+For full details on how personal information is handled, please refer to:
+
+- our Privacy Policy
+- our Cookie Policy
+- applicable product licenses and enterprise agreements
+
+If you have questions about data protection at Synapser, contact us at:
+<info@synapser.com>
