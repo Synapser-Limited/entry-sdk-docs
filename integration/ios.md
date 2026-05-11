@@ -59,7 +59,7 @@ Call `configure` once, typically in your `AppDelegate` or app entry point:
 ```swift
 import EntrySDK
 
-EntrySDK.shared.configure(
+EntrySDKClient.shared.configure(
     appName: "<your-app-name>",   // provided by the Entry team
     environment: .test             // .test or .live
 )
@@ -77,7 +77,7 @@ EntrySDK.shared.configure(
 If the user is not recognized, the SDK will register them automatically:
 
 ```swift
-let user = try await EntrySDK.shared.identifyUser(
+let user = try await EntrySDKClient.shared.identifyUser(
     registerIfNotFound: true,
     presenter: viewController
 )
@@ -88,7 +88,7 @@ let user = try await EntrySDK.shared.identifyUser(
 Returns an error if the user is not already registered:
 
 ```swift
-let user = try await EntrySDK.shared.identifyUser(
+let user = try await EntrySDKClient.shared.identifyUser(
     registerIfNotFound: false,
     presenter: viewController
 )
