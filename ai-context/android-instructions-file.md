@@ -30,15 +30,15 @@ Contact support@synapser.com for both. Accept the GitHub org invitation before s
 
 ## Environment requirements
 
-| Requirement | Minimum |
-|---|---|
-| OS | macOS, Windows, or Linux |
+| Requirement    | Minimum |
+| -----------    | ------- |
+| OS             | macOS, Windows, or Linux |
 | Android Studio | Hedgehog (2023.1) or later recommended |
-| JDK | 11+ (Gradle 7+ requires it) |
-| Kotlin | 1.7+ |
-| Gradle | 7.0+ |
-| minSdk | 21 (Android 5.0) |
-| Device | Physical Android device with front camera — the emulator is not supported |
+| JDK            | 11+ (Gradle 7+ requires it) |
+| Kotlin         | 1.7+ |
+| Gradle         | 7.0+ |
+| minSdk         | 21 (Android 5.0) |
+| Device         | Physical Android device with front camera — the emulator is not supported |
 
 ## Adding the SDK (Gradle / Maven)
 
