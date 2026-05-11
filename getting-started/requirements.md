@@ -2,6 +2,7 @@
 layout: default
 title: Requirements
 nav_order: 2
+parent: Getting Started
 ---
 
 # Requirements
