@@ -28,6 +28,16 @@ Two prerequisites must be in place — these are done by the app owner, not the 
 
 Contact support@synapser.com for both.
 
+## Environment requirements
+
+| Requirement | Minimum |
+|---|---|
+| OS | macOS, Windows, or Linux |
+| Node.js | 18+ |
+| npm | 7+ |
+| Browser | Chrome 80+, Firefox 75+, Safari 13+, Edge 80+ |
+| Protocol | HTTPS (camera). `localhost` is exempt during development |
+
 ## Installation
 
 ### 1. Configure GitHub Packages auth (once per machine)
