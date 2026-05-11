@@ -1,7 +1,8 @@
 ---
 layout: default
-title: Native Liveness Integration
+title: Native Liveness
 nav_order: 9
+parent: Integration Guides
 ---
 
 # Native Liveness Integration (iOS + Android)
