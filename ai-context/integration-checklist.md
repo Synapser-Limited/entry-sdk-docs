@@ -13,7 +13,7 @@ Use this checklist before going live with an Entry integration. It can be run by
 
 ## Prerequisites
 
-- [ ] Application name is registered with the Entry team (support@synapser.com)
+- [ ] Application name is registered with the Entry team (<support@synapser.com>)
 - [ ] Application's bundle/package ID or web domain is registered with the Entry team
 - [ ] Developer GitHub accounts are members of the `synapser-sdk-distribution` org
 - [ ] GitHub Personal Access Token (PAT) has `read:packages` scope
