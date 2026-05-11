@@ -28,6 +28,22 @@ Two prerequisites — done by the app owner, not the integrating developer:
 
 Contact support@synapser.com for both. Accept the GitHub org invitation before trying to install either SDK.
 
+## Environment requirements
+
+| Requirement | Minimum |
+|---|---|
+| OS (iOS target) | **macOS only** — building the iOS side requires Xcode |
+| OS (Android target) | macOS, Windows, or Linux |
+| Node.js | 18+ |
+| React Native | 0.71+ |
+| Xcode | 14+ (iOS target) |
+| Android Studio | Hedgehog (2023.1) or later (Android target) |
+| JDK | 11+ |
+| iOS deployment target | 14.0+ |
+| Android minSdk | 21 (Android 5.0) |
+| Device | Physical device required for both iOS and Android — simulators/emulators not supported |
+| Expo Go | Not supported — use a dev build (`npx expo run:ios`) or bare workflow |
+
 ---
 
 ## Architecture
