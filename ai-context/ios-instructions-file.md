@@ -28,6 +28,16 @@ Two prerequisites — done by the app owner, not the integrating developer:
 
 Contact support@synapser.com for both. Accept the GitHub org invitation before trying to add the package in Xcode.
 
+## Environment requirements
+
+| Requirement | Minimum |
+|---|---|
+| OS | **macOS only** — Xcode is macOS-only, iOS development is not possible on Windows or Linux |
+| Xcode | 14+ |
+| Swift | 5.7+ |
+| iOS deployment target | 14.0+ |
+| Device | Physical iPhone with front camera — the iOS Simulator is not supported |
+
 ## Adding the SDK (Swift Package Manager)
 
 1. In Xcode: **File → Add Package Dependencies…**
