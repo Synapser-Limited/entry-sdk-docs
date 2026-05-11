@@ -1,7 +1,8 @@
 ---
 layout: default
-title: iOS Integration Guide
+title: iOS SDK
 nav_order: 7
+parent: Integration Guides
 ---
 
 # iOS SDK Integration Guide
