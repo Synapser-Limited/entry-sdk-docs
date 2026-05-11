@@ -2,81 +2,78 @@
 layout: default
 title: Home
 nav_order: 1
-description: "Entry Web SDK - Facial biometric authentication for web apps. Passwordless login with liveness detection, powered by AWS Rekognition. TypeScript/React SDK."
-keywords: facial recognition, biometric authentication, passwordless login, liveness detection, face verification, AWS Rekognition, TypeScript SDK, React authentication, web biometrics
+description: "Entry SDK - Facial biometric authentication for Web, iOS, and Android. Passwordless login with liveness detection, powered by AWS Rekognition."
+keywords: facial recognition, biometric authentication, passwordless login, liveness detection, face verification, AWS Rekognition, iOS SDK, Android SDK, TypeScript SDK, React authentication, web biometrics
 permalink: /
 ---
 
-# Entry Web SDK Documentation
+# Entry SDK Documentation
 
 {: .fs-9 }
 
-Passwordless facial biometric authentication for web applications.
+Passwordless facial biometric authentication for Web, iOS, and Android.
 {: .fs-6 .fw-300 }
 
 {: .label .label-green }
 
-[Get Started](./integration){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
-[Quick Reference](./quick-reference){: .btn .fs-5 .mb-4 .mb-md-0 }
+[Get Started](./getting-started/overview){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
+[Client Onboarding](./getting-started/client-onboarding){: .btn .fs-5 .mb-4 .mb-md-0 }
 
 ---
 
-## What is Entry Web SDK?
+## What is Entry?
 
-Entry Web SDK enables **passwordless authentication** using facial biometrics with active liveness detection. Built on AWS Rekognition, it provides:
+Entry enables **passwordless authentication** using facial biometrics with active liveness detection. Built on AWS Rekognition, it provides:
 
-- **Facial Recognition** - Identify and verify users by their face
-- **Liveness Detection** - Prevent spoofing with active liveness checks
-- **User Registration** - Seamless onboarding with biometric enrollment
-- **TypeScript/React** - First-class support for modern web apps
-- **Enterprise Security** - AWS-powered backend, encrypted data transmission
+- **Facial Recognition** — Identify and verify users by their face
+- **Liveness Detection** — Prevent spoofing with active liveness checks
+- **User Registration** — Seamless onboarding with biometric enrolment
+- **Multi-Platform** — Native SDKs for Web (TypeScript/React), iOS (Swift), and Android (Kotlin)
+- **Enterprise Security** — AWS-powered backend, encrypted data transmission
 
 {: .warning }
-> **HTTPS Required** - The SDK requires HTTPS for camera access. It will not work on `http://` URLs (except `localhost` for development).
-
-## Quick Links
-
-| Documentation                           | Description                                 |
-|:----------------------------------------|:--------------------------------------------|
-| 🚀 [Integration Guide](./integration)   | Complete setup and integration instructions |
-| ⚡ [Quick Reference](./quick-reference)  | Copy-paste code snippets and lookup tables  |
-| 🔧 [Troubleshooting](./troubleshooting) | Common issues, FAQs, and debugging tips     |
-| 🔒 [Security](./security)               | Security guidelines and best practices      |
-| ⚠️ [Error Handling](./error-handling)   | Error codes and handling strategies         |
-| 📖 [Use Cases](./use-cases)             | Common integration scenarios                |
-| 📋 [Changelog](./changelog)             | Version history and release notes           |
-| 📄 [License](./license)                 | Software license terms                      |
+> **Physical camera required** — Liveness detection requires a real camera. Simulators and emulators are not supported.
 
 ---
 
-## Installation
+## Platform Guides
 
-```bash
-# Configure GitHub Packages auth (once)
-echo "@synapser-sdk-distribution:registry=https://npm.pkg.github.com" >> ~/.npmrc
-echo "//npm.pkg.github.com/:_authToken=YOUR_GITHUB_TOKEN" >> ~/.npmrc
+| Platform | Integration Guide | Quick Reference |
+|:---------|:-----------------|:----------------|
+| 🌐 Web (TypeScript/React) | [Web Integration](./integration/web) | [Quick Reference](./integration/web-quick-reference) |
+| 🍎 iOS (Swift) | [iOS Integration](./integration/ios) | — |
+| 🤖 Android (Kotlin) | [Android Integration](./integration/android) | — |
 
-# Install the SDK
-npm install @synapser-sdk-distribution/entry-web-sdk
-```
+## Additional Web SDK Resources
 
-{: .note }
-> You need a GitHub Personal Access Token with `read:packages` scope. [Learn how to create one](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token).
+| Documentation | Description |
+|:---|:---|
+| 🔒 [Security](./integration/web-security) | Security guidelines and best practices |
+| ⚠️ [Error Handling](./integration/web-error-handling) | Error codes and handling strategies |
+| 📖 [Use Cases](./integration/web-use-cases) | Common integration scenarios |
+| 🔧 [Troubleshooting](./integration/web-troubleshooting) | Common issues and debugging tips |
+
+## Other Resources
+
+| Documentation | Description |
+|:---|:---|
+| 📋 [Changelog](./changelog) | Version history and release notes |
+| 📄 [License](./license) | Software license terms |
 
 ---
 
-## Getting Started
+## Getting Started (Web)
 
 ```typescript
 import { EntrySDK, EntryApiEnvironment, EntrySDKError } from '@synapser-sdk-distribution/entry-web-sdk';
 
-// Initialize SDK (provide your app name from Synapser)
+// Initialise SDK once (app name provided by Synapser on registration)
 const entrySDK = EntrySDK.getInstance(
-  'your-app-name-registered-with-synapser',
+  'your-app-name',
   EntryApiEnvironment.Live
 );
 
-// Identify user with biometric liveness check
+// Identify user — liveness check runs inside the container element
 async function authenticateUser() {
   try {
     const user = await entrySDK.identifyUser(
@@ -92,17 +89,10 @@ async function authenticateUser() {
 }
 ```
 
-{: .important }
-> **Requirements:**
->
-> - HTTPS domain (required for camera access)
-> - Container element for the authentication UI
-> - Valid app configuration from Synapser
-
-For complete integration details, see the [Integration Guide](./integration).
+For complete integration details, see the platform guides above.
 
 ---
 
 ## Support
 
-For support inquiries, please contact [support@synapser.com](mailto:support@synapser.com).
+For support enquiries, contact [support@synapser.com](mailto:support@synapser.com).
