@@ -2,6 +2,7 @@
 layout: default
 title: Platform Overview
 nav_order: 1
+parent: Getting Started
 ---
 
 # Platform Overview
