@@ -1,7 +1,8 @@
 ---
 layout: default
-title: Web Security & Compliance
+title: Web Security
 nav_order: 3
+parent: Integration Guides
 ---
 
 # Web SDK — Security and Compliance Guide
