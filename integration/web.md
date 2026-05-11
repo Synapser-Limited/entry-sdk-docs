@@ -1,7 +1,8 @@
 ---
 layout: default
-title: Web Integration Guide
+title: Web SDK
 nav_order: 1
+parent: Integration Guides
 ---
 
 # Web SDK Integration Guide
