@@ -2,6 +2,7 @@
 layout: default
 title: Web Error Handling
 nav_order: 4
+parent: Integration Guides
 ---
 
 # Web SDK — Error Handling Guide
