@@ -1,7 +1,8 @@
 ---
 layout: default
-title: Android Integration Guide
+title: Android SDK
 nav_order: 8
+parent: Integration Guides
 ---
 
 # Android SDK Integration Guide
