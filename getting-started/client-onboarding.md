@@ -2,6 +2,7 @@
 layout: default
 title: Client Onboarding
 nav_order: 3
+parent: Getting Started
 ---
 
 # Client Onboarding
