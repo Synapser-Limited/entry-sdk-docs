@@ -1,11 +1,11 @@
-title: Entry Web SDK
-description: Secure facial biometric authentication SDK for web applications. Passwordless login with liveness detection powered by AWS Rekognition.
-tagline: Facial Biometric Authentication for Web Apps
+title: Entry SDK
+description: Secure facial biometric authentication for Web, iOS, and Android. Passwordless login with liveness detection powered by AWS Rekognition.
+tagline: Facial Biometric Authentication for Web, iOS & Android
 
 remote_theme: just-the-docs/just-the-docs@v0.10.0
 
 url: https://synapser-limited.github.io
-baseurl: /entry-web-sdk-docs
+baseurl: /entry-sdk-docs
 
 # SEO and social
 author: Synapser Limited
