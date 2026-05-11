@@ -2,6 +2,7 @@
 layout: default
 title: Web Use Cases
 nav_order: 5
+parent: Integration Guides
 ---
 
 # Web SDK — Use Cases and Implementation Patterns
