@@ -79,7 +79,7 @@ The SDK handles the runtime permission request. You do not need to request it ma
 
 ### Configure on application start
 
-Call `configure` once, typically in your `Application` class:
+Call `initialize` once, typically in your `Application` class:
 
 ```kotlin
 import com.synapser.entry.EntrySDK
@@ -88,7 +88,7 @@ import com.synapser.entry.EntryEnvironment
 class MyApplication : Application() {
     override fun onCreate() {
         super.onCreate()
-        EntrySDK.configure(
+        EntrySDK.initialize(
             context = this,
             appName = "your-app-name",   // provided by the Entry team
             environment = EntryEnvironment.LIVE  // LIVE or TEST
@@ -110,22 +110,24 @@ If the user's face is not recognised, they are automatically registered:
 
 ```kotlin
 import com.synapser.entry.EntrySDK
-import com.synapser.entry.EntrySDKException
+import com.synapser.entry.models.EntrySDKError
 
 class MainActivity : AppCompatActivity() {
 
     private fun authenticate() {
         lifecycleScope.launch {
-            try {
-                val user = EntrySDK.identifyUser(
-                    registerIfNotFound = true,
-                    activity = this@MainActivity
-                )
-                // user.id, user.name, etc.
-                onUserIdentified(user)
-            } catch (e: EntrySDKException) {
-                handleError(e)
-            }
+            val result = EntrySDK.getInstance().identifyUser(
+                registerIfNotFound = true,
+                activity = this@MainActivity
+            )
+            result
+                .onSuccess { user ->
+                    // user.entryUserId, user.firstName, user.lastName, etc.
+                    onUserIdentified(user)
+                }
+                .onFailure { error ->
+                    handleError(error as? EntrySDKError ?: return@onFailure)
+                }
         }
     }
 }
@@ -133,10 +135,10 @@ class MainActivity : AppCompatActivity() {
 
 ### Identify only (no registration)
 
-Returns an error if the user is not already registered:
+Returns a failure result if the user is not already registered:
 
 ```kotlin
-val user = EntrySDK.identifyUser(
+val result = EntrySDK.getInstance().identifyUser(
     registerIfNotFound = false,
     activity = this
 )
@@ -145,10 +147,10 @@ val user = EntrySDK.identifyUser(
 ## 5) Error handling
 
 ```kotlin
-import com.synapser.entry.EntrySDKException
-import com.synapser.entry.EntrySDKErrorCode
+import com.synapser.entry.models.EntrySDKError
+import com.synapser.entry.models.EntrySDKErrorCode
 
-fun handleError(e: EntrySDKException) {
+fun handleError(e: EntrySDKError) {
     when (e.code) {
         EntrySDKErrorCode.USER_NOT_FOUND ->
             promptRegistration()
@@ -161,7 +163,7 @@ fun handleError(e: EntrySDKException) {
         EntrySDKErrorCode.NETWORK_ERROR ->
             showOfflineMessage()
         else ->
-            showError(e.message ?: "An error occurred")
+            showError(e.userMessage ?: e.message ?: "An error occurred")
     }
 }
 ```
