@@ -172,6 +172,14 @@ function handleEntryError(error: EntrySDKError) {
 
 `error.isRetryable()` returns `true` for liveness failures, camera issues, and network errors.
 
+## Security
+
+- **Never commit the GitHub PAT** — use `${NODE_AUTH_TOKEN}` in `~/.npmrc` (an environment variable or CI secret). A hard-coded PAT in `.npmrc`, source code, or `.env` files committed to version control is a critical credential leak.
+- **Never log the user object** — `identifyUser()` returns PII (name, ID). Do not pass it to `console.log`, analytics, or error tracking (e.g. Sentry) without stripping sensitive fields.
+- **Do not store tokens in `localStorage`** — if your app uses session tokens from Entry, store them in `sessionStorage` or an in-memory variable. `localStorage` is accessible to any JS on the page.
+- **Use the Test environment during development** — never point a dev or CI environment at `EntryApiEnvironment.Live`. This prevents polluting production face data and avoids accidental live billing.
+- **Serve over HTTPS in production** — browsers block camera access on non-secure origins. `localhost` is the only exception.
+
 ## Common mistakes — do not do these
 
 - **Do not call the Entry API directly** — the SDK is the integration point. There are no raw API calls to make.
