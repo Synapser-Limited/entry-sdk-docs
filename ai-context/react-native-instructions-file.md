@@ -465,6 +465,14 @@ eas build --platform android --profile development
 
 ---
 
+## Security
+
+- **Never commit credentials** — iOS PAT must not be in any committed file; Android PAT must stay in `~/.gradle/gradle.properties`, not in the project's `gradle.properties`.
+- **Never log the user object** — the resolved user contains PII (name, ID). Do not log it in JS (`console.log`), iOS (`print()`), or Android (`Log.d()`), and do not pass it to Sentry or Crashlytics without stripping sensitive fields.
+- **Store session tokens securely by platform** — iOS: Keychain; Android: `EncryptedSharedPreferences`; JS: in-memory or `sessionStorage` (not `localStorage`, not `AsyncStorage` unencrypted).
+- **Use Test environment during development** — never target Live (`EntryEnvironment.LIVE` / `.live`) in dev builds. Both native bridge modules must pass the environment through to the underlying SDK.
+- **Validate the environment flag at build time** — a common vibe-coder mistake is hardcoding `.live` / `LIVE` in the bridge module itself. The environment should be passed in from JS via `configure()`, not hardcoded in native code.
+
 ## Mistakes AI coding assistants commonly make
 
 - **Using `EntrySDK.shared` (iOS)** — the iOS class is `EntrySDKClient.shared`, not `EntrySDK.shared`
