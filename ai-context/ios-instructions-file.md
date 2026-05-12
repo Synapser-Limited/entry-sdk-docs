@@ -140,6 +140,13 @@ func handleEntryError(_ error: Error) {
 }
 ```
 
+## Security
+
+- **Never commit the GitHub PAT** — store it in Xcode's credential manager or your CI secrets. A PAT in a committed `.netrc` or `~/.netrc` file is a critical credential leak.
+- **Never log the user object** — `identifyUser()` returns PII (name, ID). Do not pass it to `print()`, Crashlytics, or Sentry without stripping sensitive fields.
+- **Store any session tokens in the Keychain** — not in `UserDefaults`. `UserDefaults` is not encrypted and can be read by other processes on a jailbroken device.
+- **Use the `.test` environment during development** — never use `.live` in dev builds. This prevents polluting production face data.
+
 ## Common mistakes — do not do these
 
 - **Do not call the Entry API directly** — `identifyUser()` is the only integration point needed
