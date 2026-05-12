@@ -92,6 +92,16 @@ A set of copy-paste prompts for AI coding assistants (Cursor, Copilot, etc.). Ea
 
 ---
 
+## Security audit prompt
+
+### Review my Entry SDK integration for security issues
+
+> Review this codebase for security issues related to the Entry SDK integration. Check for: (1) GitHub PAT or credentials committed to version control or hard-coded in source files; (2) the user object or any PII being passed to logging, analytics, or error tracking; (3) session tokens stored insecurely (localStorage on web, UserDefaults on iOS, plain SharedPreferences on Android); (4) the Live environment being used in a development or test build; (5) any direct calls to the Entry API bypassing the SDK. Report each issue with the file, line, and a one-line fix.
+
+**Expected outcome:** A list of findings per category, or "no issues found" for each. No code should be rewritten — this is a review prompt, not a fix prompt.
+
+---
+
 ## Notes for prompt testing
 
 When testing a prompt:
