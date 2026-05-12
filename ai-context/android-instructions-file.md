@@ -196,6 +196,13 @@ fun handleEntryError(e: EntrySDKError) {
 }
 ```
 
+## Security
+
+- **Never commit GitHub credentials** — keep `github.username` and `github.token` in `~/.gradle/gradle.properties`, which is outside the project directory. Never add them to `gradle.properties` inside the project (that file gets committed).
+- **Never log the user object** — `identifyUser()` returns PII (name, ID). Do not pass it to `Log.d()`, Firebase Crashlytics, or Sentry without stripping sensitive fields.
+- **Store any session tokens in `EncryptedSharedPreferences`** — not plain `SharedPreferences`. Plain preferences are stored unencrypted on the device filesystem.
+- **Use the `TEST` environment during development** — never use `LIVE` in dev builds. This prevents polluting production face data.
+
 ## Common mistakes — do not do these
 
 - **Do not call the Entry API directly** — `identifyUser()` is the only integration point needed
