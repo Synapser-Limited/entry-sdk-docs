@@ -63,7 +63,7 @@ Use this checklist before going live with an Entry integration. It can be run by
 
 ## Error handling
 
-- [ ] Errors are caught and checked as `EntrySDKError` (Web) / `EntrySDKError` (iOS) / `EntrySDKException` (Android) — not as generic `Error`
+- [ ] Errors are caught and checked as `EntrySDKError` (Web / iOS / Android) — not as generic `Error` or `Exception`
 - [ ] `LIVENESS_CHECK_FAILED` is handled — user sees a helpful message and can retry
 - [ ] `CAMERA_ACCESS_DENIED` is handled — user is shown how to re-enable camera permission
 - [ ] `USER_CANCELLED` is handled — app returns to a sensible state (not a blank or broken screen)
@@ -77,6 +77,18 @@ Use this checklist before going live with an Entry integration. It can be run by
 - [ ] **Test** environment verified: complete a liveness check against the Test environment
 - [ ] Production build uses `EntryApiEnvironment.Live` / `EntryEnvironment.LIVE` / `.live`
 - [ ] No `Development` or `Demo` environment values used in production builds
+
+---
+
+## Security
+
+- [ ] GitHub PAT / credentials are **not** committed to version control
+  - Web: `NODE_AUTH_TOKEN` set via environment variable, not hard-coded in `.npmrc` or source
+  - Android: credentials are in `~/.gradle/gradle.properties` (outside the project directory)
+  - iOS: PAT stored in Xcode credential manager or CI secret, not in any committed file
+- [ ] The user object returned by `identifyUser()` is **not logged** — it contains PII (name, user ID)
+- [ ] Session tokens (if stored) use a secure store — **not** `localStorage` (Web), `UserDefaults` (iOS), or plain `SharedPreferences` (Android)
+- [ ] The environment in the production build is `Live` — not `Test`, `Development`, or `Demo`
 
 ---
 
