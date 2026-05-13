@@ -23,7 +23,7 @@ Use this checklist before going live with an Entry integration. It can be run by
 ## Installation
 
 - [ ] **Web:** `~/.npmrc` routes `@synapser-sdk-distribution` scope to `https://npm.pkg.github.com`
-- [ ] **Web:** `NODE_AUTH_TOKEN` is set via environment variable or secret manager — not hard-coded
+- [ ] **Web:** `GITHUB_PAT_READ_PACKAGES` is set via environment variable or secret manager — not hard-coded
 - [ ] **iOS:** SPM package added in Xcode using the URL from the Entry team
 - [ ] **Android:** Maven repository block added to `settings.gradle.kts` with credentials from `~/.gradle/gradle.properties`
 - [ ] Package installs/resolves without errors
@@ -83,7 +83,7 @@ Use this checklist before going live with an Entry integration. It can be run by
 ## Security
 
 - [ ] GitHub PAT / credentials are **not** committed to version control
-  - Web: `NODE_AUTH_TOKEN` set via environment variable, not hard-coded in `.npmrc` or source
+  - Web: `GITHUB_PAT_READ_PACKAGES` set via environment variable, not hard-coded in `.npmrc` or source
   - Android: credentials are in `~/.gradle/gradle.properties` (outside the project directory)
   - iOS: PAT stored in Xcode credential manager or CI secret, not in any committed file
 - [ ] The user object returned by `identifyUser()` is **not logged** — it contains PII (name, user ID)
