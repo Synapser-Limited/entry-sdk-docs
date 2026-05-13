@@ -40,7 +40,7 @@ Contact support@synapser.com for both. Accept the GitHub org invitation before t
 | Android Studio | Hedgehog (2023.1) or later (Android target) |
 | JDK | 11+ |
 | iOS deployment target | 14.0+ |
-| Android minSdk | 21 (Android 5.0) |
+| Android minSdk | 24 (Android 7.0) — for current Entry SDK releases such as `3.1.13` |
 | Device | Physical device required for both iOS and Android — simulators/emulators not supported |
 | Expo Go | Not supported — use a dev build (`npx expo run:ios`) or bare workflow |
 
@@ -112,6 +112,21 @@ dependencies {
 ```
 
 Version number is provided by the Entry team.
+
+If you see an error like:
+```text
+uses-sdk:minSdkVersion 21 cannot be smaller than version 24 declared in library [com.synapser:entry-sdk:3.1.13]
+```
+update your app module's `build.gradle.kts`:
+```kotlin
+android {
+    defaultConfig {
+        minSdk = 24
+    }
+}
+```
+
+Do **not** use `tools:overrideLibrary="com.synapser.entry"` as a workaround unless the Entry team explicitly tells you to. That can compile, but it may crash at runtime on unsupported Android versions.
 
 ---
 
@@ -396,7 +411,11 @@ function handleEntryError(code: string, message: string) {
       // User passed liveness but is not registered — prompt to register
       break;
     case 'LIVENESS_CHECK_FAILED':
-      // Show lighting/positioning advice and offer retry
+      // Show lighting/positioning advice and offer retry.
+      // NOTE (Android): The SDK may return LIVENESS_CHECK_FAILED when camera permission has not
+      // been granted, instead of CAMERA_ACCESS_DENIED. Inspect the message to distinguish:
+      // if (message.toLowerCase().includes('permission') || message.toLowerCase().includes('camera'))
+      //   → treat as camera permission denied
       break;
     case 'CAMERA_ACCESS_DENIED':
       // Direct user to device Settings → Privacy → Camera
@@ -483,3 +502,5 @@ eas build --platform android --profile development
 - **Using `currentActivity` without casting to `AppCompatActivity`** — the Entry Android SDK requires `AppCompatActivity`, not plain `Activity`
 - **Testing on Expo Go** — native modules are not available in Expo Go; if `NativeModules.EntryBridgeModule` is undefined, you are running in Expo Go
 - **Testing on simulator / emulator** — liveness requires a physical device with a front camera
+- **Calling `configure()` / `identifyUser()` multiple times** — call `configure()` (iOS) / the JS `configure()` wrapper (Android) exactly once at app startup. Never call it before each `identifyUser()` invocation.
+- **Keeping Android minSdk below the SDK requirement** — `com.synapser:entry-sdk:3.1.13` requires `minSdk = 24`; an app with `minSdk = 21` will fail to build
