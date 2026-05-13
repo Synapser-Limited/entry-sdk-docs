@@ -90,7 +90,7 @@ Add the repository and credentials to your project-level `settings.gradle.kts`:
 ```kotlin
 repositories {
     maven {
-        url = uri("https://maven.pkg.github.com/synapser-sdk-distribution/entry-android-sdk")
+        url = uri("https://maven.pkg.github.com/Synapser-Limited/entry-web-sdk")
         credentials {
             username = "<YOUR_GITHUB_USERNAME>"
             password = "<YOUR_GITHUB_PAT>"
