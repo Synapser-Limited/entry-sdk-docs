@@ -172,6 +172,57 @@ function handleEntryError(error: EntrySDKError) {
 
 `error.isRetryable()` returns `true` for liveness failures, camera issues, and network errors.
 
+## Vite dev runtime notes
+
+### Blank screen fix (process is not defined)
+
+If your app shows a blank page in `npm run dev` and browser console shows `ReferenceError: process is not defined` from `@synapser-sdk-distribution/entry-web-sdk`, add a `define` fallback in Vite config:
+
+```ts
+// vite.config.ts
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+
+export default defineConfig({
+  plugins: [react()],
+  define: {
+    process: {
+      env: {},
+    },
+  },
+});
+```
+
+This avoids a runtime crash before React mounts and resolves the blank screen in dev mode.
+
+### Liveness failure fix (Buffer is not defined / global is not defined)
+
+The Entry SDK's AWS dependencies reference Node.js globals (`global`, `Buffer`) that don't exist in browsers. Two fixes are needed:
+
+**1. Add `global` to Vite's `define` (compile-time substitution — replaces `global` everywhere in the bundle):**
+
+```ts
+// vite.config.ts
+export default defineConfig({
+  plugins: [react()],
+  define: {
+    global: 'globalThis',
+    process: { env: {} },
+  },
+});
+```
+
+**2. Polyfill `Buffer` in your entry point** (`src/main.tsx` for React), before any SDK code runs at runtime:
+
+```typescript
+import { Buffer } from 'buffer';
+globalThis.Buffer = Buffer;
+
+// ... rest of imports
+```
+
+> `global` must be handled via Vite `define` — not a `globalThis.global = globalThis` statement in source. ES module imports are hoisted, so any statement before an `import` runs too late to help the packages being imported.
+
 ## Security
 
 - **Never commit the GitHub PAT** — use `${GITHUB_PAT_READ_PACKAGES}` in `~/.npmrc` (an environment variable or CI secret). A hard-coded PAT in `.npmrc`, source code, or `.env` files committed to version control is a critical credential leak.
