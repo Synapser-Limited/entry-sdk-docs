@@ -45,10 +45,10 @@ Contact support@synapser.com for both.
 Add to `~/.npmrc`:
 ```
 @synapser-sdk-distribution:registry=https://npm.pkg.github.com
-//npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}
+//npm.pkg.github.com/:_authToken=${GITHUB_PAT_READ_PACKAGES}
 ```
 
-Set `NODE_AUTH_TOKEN` in your shell or CI secrets — never hard-code the PAT.
+Set `GITHUB_PAT_READ_PACKAGES` in your shell or CI secrets — never hard-code the PAT.
 
 ### 2. Install
 
@@ -174,7 +174,7 @@ function handleEntryError(error: EntrySDKError) {
 
 ## Security
 
-- **Never commit the GitHub PAT** — use `${NODE_AUTH_TOKEN}` in `~/.npmrc` (an environment variable or CI secret). A hard-coded PAT in `.npmrc`, source code, or `.env` files committed to version control is a critical credential leak.
+- **Never commit the GitHub PAT** — use `${GITHUB_PAT_READ_PACKAGES}` in `~/.npmrc` (an environment variable or CI secret). A hard-coded PAT in `.npmrc`, source code, or `.env` files committed to version control is a critical credential leak.
 - **Never log the user object** — `identifyUser()` returns PII (name, ID). Do not pass it to `console.log`, analytics, or error tracking (e.g. Sentry) without stripping sensitive fields.
 - **Do not store tokens in `localStorage`** — if your app uses session tokens from Entry, store them in `sessionStorage` or an in-memory variable. `localStorage` is accessible to any JS on the page.
 - **Use the Test environment during development** — never point a dev or CI environment at `EntryApiEnvironment.Live`. This prevents polluting production face data and avoids accidental live billing.
@@ -183,7 +183,7 @@ function handleEntryError(error: EntrySDKError) {
 ## Common mistakes — do not do these
 
 - **Do not call the Entry API directly** — the SDK is the integration point. There are no raw API calls to make.
-- **Do not hard-code the GitHub PAT** in `~/.npmrc`, source code, or version control. Use `${NODE_AUTH_TOKEN}` via env.
+- **Do not hard-code the GitHub PAT** in `~/.npmrc`, source code, or version control. Use `${GITHUB_PAT_READ_PACKAGES}` via env.
 - **Do not use `.Live` during development** — always use `.Test` first to avoid affecting production data.
 - **Do not construct `new EntrySDK()`** — always use `EntrySDK.getInstance()`.
 - **Do not catch errors as `Error`** — use `instanceof EntrySDKError` to access `.code` and `.isRetryable()`.
