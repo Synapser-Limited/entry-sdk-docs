@@ -61,7 +61,7 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         maven {
-            url = uri("https://maven.pkg.github.com/synapser-sdk-distribution/entry-android-sdk")
+            url = uri("https://maven.pkg.github.com/Synapser-Limited/entry-web-sdk")
             credentials {
                 username = providers.gradleProperty("github.username").orNull
                     ?: System.getenv("GITHUB_USERNAME")
