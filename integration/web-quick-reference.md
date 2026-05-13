@@ -14,9 +14,9 @@ Essential snippets and lookup tables.
 ```ini
 # Save in ~/.npmrc
 @synapser-sdk-distribution:registry=https://npm.pkg.github.com
-//npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}
+//npm.pkg.github.com/:_authToken=${GITHUB_PAT_READ_PACKAGES}
 
-# Then set NODE_AUTH_TOKEN in your shell or secret manager
+# Then set GITHUB_PAT_READ_PACKAGES in your shell or secret manager
 
 # Install
 npm install @synapser-sdk-distribution/entry-web-sdk
@@ -217,7 +217,7 @@ function AuthButton() {
 - [ ] HTTPS enabled (required for camera)
 - [ ] App name registered with the Entry team
 - [ ] Domain whitelisted
-- [ ] `NODE_AUTH_TOKEN` set with a GitHub token that has `read:packages` scope
+- [ ] `GITHUB_PAT_READ_PACKAGES` set with a GitHub token that has `read:packages` scope
 - [ ] Node.js 18+
 - [ ] Supported browser (Chrome 80+, Firefox 75+, Safari 13+, Edge 80+)
 - [ ] Container element present in the DOM
