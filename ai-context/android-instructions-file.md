@@ -37,8 +37,10 @@ Contact support@synapser.com for both. Accept the GitHub org invitation before s
 | JDK            | 11+ (Gradle 7+ requires it) |
 | Kotlin         | 1.7+ |
 | Gradle         | 7.0+ |
-| minSdk         | 21 (Android 5.0) |
+| minSdk         | 24 (Android 7.0) for current Entry SDK releases such as `3.1.13` |
 | Device         | Physical Android device with front camera — the emulator is not supported |
+
+> If your app sets `minSdk` lower than the Entry SDK's declared minimum, Gradle will fail manifest merging. For example, `com.synapser:entry-sdk:3.1.13` requires `minSdk 24`.
 
 ## Adding the SDK (Gradle / Maven)
 
@@ -84,6 +86,22 @@ dependencies {
 
 Version number is provided by the Entry team.
 
+If you see an error like:
+```text
+uses-sdk:minSdkVersion 21 cannot be smaller than version 24 declared in library [com.synapser:entry-sdk:3.1.13]
+```
+
+update your app module's `build.gradle.kts`:
+```kotlin
+android {
+    defaultConfig {
+        minSdk = 24
+    }
+}
+```
+
+Do **not** use `tools:overrideLibrary="com.synapser.entry"` as a workaround unless the Entry team explicitly tells you to. That can compile, but it may crash at runtime on unsupported Android versions.
+
 ## Required — AndroidManifest.xml permission
 
 ```xml
@@ -95,19 +113,23 @@ The SDK requests the runtime permission automatically — you do not need to cal
 
 ## Configuration (do this once, at app startup)
 
-Call `configure` once in your `Application` class:
+Call `initialize` once in your `Application` class:
 
 ```kotlin
 import com.synapser.entry.EntrySDK
 import com.synapser.entry.EntryEnvironment
+import com.synapser.entry.EntrySDKOptions
 
 class MyApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         EntrySDK.initialize(
             context = this,
-            appName = "your-app-name",        // MUST match the name registered with the Entry team
-            environment = EntryEnvironment.TEST // TEST for development, LIVE for production
+            appName = "your-app-name",  // MUST match the name registered with the Entry team
+            environment = EntryEnvironment.TEST, // TEST for development, LIVE for production
+            options = EntrySDKOptions(
+                enableDebugLogging = BuildConfig.DEBUG
+            )
         )
     }
 }
@@ -130,25 +152,47 @@ Register `MyApplication` in `AndroidManifest.xml`:
 Standard flow. If the user's face is not recognised, they are registered automatically.
 
 ```kotlin
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.runtime.*
 import com.synapser.entry.EntrySDK
 import com.synapser.entry.models.EntrySDKError
+import com.synapser.entry.models.EntryUser
+import kotlinx.coroutines.launch
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : ComponentActivity() {
 
-    private fun authenticate() {
-        lifecycleScope.launch {
-            val result = EntrySDK.getInstance().identifyUser(
-                registerIfNotFound = true,
-                activity = this@MainActivity
-            )
-            result
-                .onSuccess { user ->
-                    // user.entryUserId, user.firstName, user.lastName, etc.
-                    onUserIdentified(user)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            MaterialTheme {
+                AuthScreen()
+            }
+        }
+    }
+
+    @Composable
+    private fun AuthScreen() {
+        val scope = rememberCoroutineScope()
+        var user by remember { mutableStateOf<EntryUser?>(null) }
+        var errorMessage by remember { mutableStateOf<String?>(null) }
+
+        Button(onClick = {
+            scope.launch {
+                val result = EntrySDK.getInstance().identifyUser(
+                    registerIfNotFound = true,
+                    activity = this@MainActivity
+                )
+                result.onSuccess { identifiedUser ->
+                    user = identifiedUser
+                    // identifiedUser.entryUserId, .firstName, .lastName, .emailAddress
+                }.onFailure { error ->
+                    val sdkError = error as? EntrySDKError
+                    errorMessage = sdkError?.userMessage ?: (error.message ?: "Unknown error")
                 }
-                .onFailure { error ->
-                    handleEntryError(error as? EntrySDKError ?: return@onFailure)
-                }
+            }
+        }) {
+            Text("Identify User")
         }
     }
 }
@@ -176,9 +220,19 @@ fun handleEntryError(e: EntrySDKError) {
         EntrySDKErrorCode.USER_NOT_FOUND ->
             // User passed liveness but is not registered — prompt to register
             promptRegistration()
-        EntrySDKErrorCode.LIVENESS_CHECK_FAILED ->
-            // Liveness rejected — show tips and allow retry
-            showMessage("Please try again in better lighting.")
+        EntrySDKErrorCode.LIVENESS_CHECK_FAILED -> {
+            // NOTE: The SDK may return LIVENESS_CHECK_FAILED when camera permission has not been
+            // granted, instead of CAMERA_ACCESS_DENIED. Always inspect e.message to distinguish
+            // the two cases.
+            val isCameraPermissionIssue = e.message.contains("permission", ignoreCase = true) ||
+                e.message.contains("camera", ignoreCase = true)
+            if (isCameraPermissionIssue) {
+                showCameraPermissionInstructions()
+            } else {
+                // Liveness rejected — show tips and allow retry
+                showMessage("Please try again in better lighting.")
+            }
+        }
         EntrySDKErrorCode.CAMERA_ACCESS_DENIED ->
             // Direct user to App Settings → Permissions → Camera
             showCameraPermissionInstructions()
@@ -191,7 +245,7 @@ fun handleEntryError(e: EntrySDKError) {
             // App name mismatch — check initialize() call
             Log.e("Entry", "App name not registered: ${e.message}")
         else ->
-            showError(e.userMessage ?: e.message ?: "An error occurred")
+            showError(e.userMessage)
     }
 }
 ```
@@ -214,6 +268,7 @@ fun handleEntryError(e: EntrySDKError) {
 - **Do not call `EntrySDK.identifyUser()` directly** — always go through `EntrySDK.getInstance().identifyUser()`
 - **Do not configure the SDK multiple times** — call `initialize()` once in `Application.onCreate()`, not in Activity
 - **Do not forget to declare the `Application` class** in `AndroidManifest.xml`
+- **Do not keep `minSdk` below the SDK requirement** — for example, `com.synapser:entry-sdk:3.1.13` requires `minSdk = 24`, so an app with `minSdk = 21` will fail to build
 
 ## Upgrading the SDK
 
