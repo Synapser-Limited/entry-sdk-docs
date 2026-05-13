@@ -22,10 +22,10 @@ Configure GitHub Packages authentication once per machine:
 
 ```ini
 @synapser-sdk-distribution:registry=https://npm.pkg.github.com
-//npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}
+//npm.pkg.github.com/:_authToken=${GITHUB_PAT_READ_PACKAGES}
 ```
 
-Save that in `~/.npmrc`, then set `NODE_AUTH_TOKEN` in your shell or secret manager before running `npm install`.
+Save that in `~/.npmrc`, then set `GITHUB_PAT_READ_PACKAGES` in your shell or secret manager before running `npm install`.
 
 > Do not store your GitHub PAT directly in `~/.npmrc`, commit it to source control, or paste it into shell commands that may be saved in shell history.
 
