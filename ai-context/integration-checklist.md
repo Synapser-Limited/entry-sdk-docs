@@ -54,6 +54,8 @@ Use this checklist before going live with an Entry integration. It can be run by
 
 - [ ] The SDK is mounted/invoked via the SDK method — there are **no direct calls to the Entry API**
 - [ ] A container `<div id="entry-container">` exists and is not hidden or obscured (Web only)
+- [ ] **Web (Vite):** `npm run dev` does not crash with `ReferenceError: process is not defined` (blank screen). If it does, set a Vite `define` fallback for `process.env`
+- [ ] **Web:** Liveness detection does not fail with `ReferenceError: Buffer is not defined` or `ReferenceError: global is not defined`. Fix: add `global: 'globalThis'` to Vite `define` config, and add `import { Buffer } from 'buffer'; globalThis.Buffer = Buffer;` at the top of the entry point. Do **not** use `globalThis.global = globalThis` as a source statement — ES module imports are hoisted and it runs too late.
 - [ ] `identifyUser()` is called with the correct `registerIfNotFound` value for the use case:
   - `true` — identify, and register automatically if the user is not found
   - `false` — identify only (returns error if user is not registered)
