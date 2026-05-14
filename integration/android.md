@@ -5,31 +5,60 @@ nav_order: 8
 parent: Integration Guides
 ---
 
-# Android SDK Integration Guide
+# Entry Android SDK — AI Integration Context
 
-This guide covers integrating the Entry Android SDK into an Android application for biometric identity verification.
+## What is Entry?
 
-## Requirements
+Entry is a **biometric identity verification SDK**. It is a **UI component** — not a raw API. You call `EntrySDK.identifyUser()`, the SDK handles liveness detection and face matching internally, and it returns a user object or throws an exception. Do not call the Entry API directly.
 
-- Android API 21+ (Android 5.0 Lollipop)
-- Kotlin 1.7+, Gradle 7.0+
-- Physical device with front camera (emulator not supported for liveness)
-- Your application registered with the Entry team — see [Client Onboarding](../getting-started/client-onboarding.md)
+## Key facts
 
-## 1) Getting access
+- Package: `com.synapser:entry-sdk` (private, Maven via GitHub Packages)
+- SDK is a singleton — initialise once via `EntrySDK.initialize()`, then access via `EntrySDK.getInstance()`
+- Coroutine-based API — `identifyUser()` is a `suspend fun` returning `Result<EntryUser>`
+- Errors are `EntrySDKError` instances with a `.code` property
+- Requires a **physical device** with a front camera — the emulator is not supported
+- Requires `CAMERA` permission in `AndroidManifest.xml` (the SDK requests it at runtime)
 
-The Entry Android SDK is distributed via Maven on GitHub Packages. To get access:
+## Before you can use Entry
 
-1. Provide the Entry team with:
-   - The **GitHub username** of each developer who needs access
-   - Your application's **package name** (e.g. `com.yourcompany.yourapp`)
-2. The Entry team will add your GitHub accounts to the `synapser-sdk-distribution` org and provide the SDK version to use.
+Two prerequisites — done by the app owner, not the integrating developer:
 
-> Accept the GitHub organisation invitation before proceeding.
+1. The app's **package name** (e.g. `com.yourcompany.yourapp`) must be registered with the Entry team
+2. Each developer's **GitHub account** must be invited to the `synapser-sdk-distribution` org
 
-## 2) Adding the SDK to your project
+Contact <support@synapser.com> for both. Accept the GitHub org invitation before syncing Gradle.
 
-Configure Gradle to authenticate with GitHub Packages. In your project-level `settings.gradle.kts`:
+## Environment requirements
+
+| Requirement    | Minimum                                                                   |
+| -------------- | ------------------------------------------------------------------------- |
+| OS             | macOS, Windows, or Linux                                                  |
+| Android Studio | Hedgehog (2023.1) or later recommended                                    |
+| JDK            | 11+ (Gradle 7+ requires it)                                               |
+| Kotlin         | 1.7+                                                                      |
+| Gradle         | 7.0+                                                                      |
+| minSdk         | 24 (Android 7.0) for current Entry SDK releases such as `3.1.13`          |
+| Device         | Physical Android device with front camera — the emulator is not supported |
+
+> If your app sets `minSdk` lower than the Entry SDK's declared minimum, Gradle will fail manifest merging. For example, `com.synapser:entry-sdk:3.1.13` requires `minSdk 24`.
+
+## Adding the SDK (Gradle / Maven)
+
+### 1. Store credentials (never in version control)
+
+Add to `~/.gradle/gradle.properties`:
+
+```properties
+github.username=YOUR_GITHUB_USERNAME
+github.token=YOUR_GITHUB_PAT
+```
+
+Your PAT needs `read:packages` scope.
+
+### 2. Configure the Maven repository
+
+In project-level `settings.gradle.kts`:
 
 ```kotlin
 dependencyResolutionManagement {
@@ -49,14 +78,9 @@ dependencyResolutionManagement {
 }
 ```
 
-Add your GitHub credentials to `~/.gradle/gradle.properties` (not in version control):
+### 3. Add the dependency
 
-```properties
-github.username=YOUR_GITHUB_USERNAME
-github.token=YOUR_GITHUB_PAT
-```
-
-Add the dependency to your app-level `build.gradle.kts`:
+In app-level `build.gradle.kts`:
 
 ```kotlin
 dependencies {
@@ -64,78 +88,126 @@ dependencies {
 }
 ```
 
-## 3) Required permissions
+Version number is provided by the Entry team.
 
-Add the camera permission to your `AndroidManifest.xml`:
+If you see an error like:
+
+```text
+uses-sdk:minSdkVersion 21 cannot be smaller than version 24 declared in library [com.synapser:entry-sdk:3.1.13]
+```
+
+update your app module's `build.gradle.kts`:
+
+```kotlin
+android {
+    defaultConfig {
+        minSdk = 24
+    }
+}
+```
+
+Do **not** use `tools:overrideLibrary="com.synapser.entry"` as a workaround unless the Entry team explicitly tells you to. That can compile, but it may crash at runtime on unsupported Android versions.
+
+## Required — AndroidManifest.xml permission
 
 ```xml
 <uses-permission android:name="android.permission.CAMERA" />
 <uses-feature android:name="android.hardware.camera" android:required="true" />
 ```
 
-The SDK handles the runtime permission request. You do not need to request it manually.
+The SDK requests the runtime permission automatically — you do not need to call `requestPermissions()` yourself.
 
-## 4) SDK setup
+## Configuration (do this once, at app startup)
 
-### Configure on application start
-
-Call `initialize` once, typically in your `Application` class:
+Call `initialize` once in your `Application` class:
 
 ```kotlin
 import com.synapser.entry.EntrySDK
 import com.synapser.entry.EntryEnvironment
+import com.synapser.entry.EntrySDKOptions
 
 class MyApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         EntrySDK.initialize(
             context = this,
-            appName = "your-app-name",   // provided by the Entry team
-            environment = EntryEnvironment.LIVE  // LIVE or TEST
+            appName = "your-app-name",  // MUST match the name registered with the Entry team
+            environment = EntryEnvironment.TEST, // TEST for development, LIVE for production
+            options = EntrySDKOptions(
+                enableDebugLogging = BuildConfig.DEBUG
+            )
         )
     }
 }
 ```
 
-| Environment             | Purpose                             |
-| ----------------------- | ----------------------------------- |
-| `EntryEnvironment.TEST` | Integration testing and development |
-| `EntryEnvironment.LIVE` | Production                          |
+| Environment             | Use for                        |
+| ----------------------- | ------------------------------ |
+| `EntryEnvironment.TEST` | Development and integration QA |
+| `EntryEnvironment.LIVE` | Production                     |
 
-> Use `TEST` during development. Switch to `LIVE` for production builds.
+Always use `TEST` during development. Switch to `LIVE` only in production builds.
 
-### Identify user (with registration fallback)
+Register `MyApplication` in `AndroidManifest.xml`:
 
-If the user's face is not recognised, they are automatically registered:
+```xml
+<application android:name=".MyApplication" ...>
+```
+
+## Identifying a user (with registration fallback)
+
+Standard flow. If the user's face is not recognised, they are registered automatically.
 
 ```kotlin
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.runtime.*
 import com.synapser.entry.EntrySDK
 import com.synapser.entry.models.EntrySDKError
+import com.synapser.entry.models.EntryUser
+import kotlinx.coroutines.launch
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : ComponentActivity() {
 
-    private fun authenticate() {
-        lifecycleScope.launch {
-            val result = EntrySDK.getInstance().identifyUser(
-                registerIfNotFound = true,
-                activity = this@MainActivity
-            )
-            result
-                .onSuccess { user ->
-                    // user.entryUserId, user.firstName, user.lastName, etc.
-                    onUserIdentified(user)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            MaterialTheme {
+                AuthScreen()
+            }
+        }
+    }
+
+    @Composable
+    private fun AuthScreen() {
+        val scope = rememberCoroutineScope()
+        var user by remember { mutableStateOf<EntryUser?>(null) }
+        var errorMessage by remember { mutableStateOf<String?>(null) }
+
+        Button(onClick = {
+            scope.launch {
+                val result = EntrySDK.getInstance().identifyUser(
+                    registerIfNotFound = true,
+                    activity = this@MainActivity
+                )
+                result.onSuccess { identifiedUser ->
+                    user = identifiedUser
+                    // identifiedUser.entryUserId, .firstName, .lastName, .emailAddress
+                }.onFailure { error ->
+                    val sdkError = error as? EntrySDKError
+                    errorMessage = sdkError?.userMessage ?: (error.message ?: "Unknown error")
                 }
-                .onFailure { error ->
-                    handleError(error as? EntrySDKError ?: return@onFailure)
-                }
+            }
+        }) {
+            Text("Identify User")
         }
     }
 }
 ```
 
-### Identify only (no registration)
+## Identifying a user (no registration)
 
-Returns a failure result if the user is not already registered:
+Throws if the user is not already registered.
 
 ```kotlin
 val result = EntrySDK.getInstance().identifyUser(
@@ -144,77 +216,73 @@ val result = EntrySDK.getInstance().identifyUser(
 )
 ```
 
-## 5) Error handling
+## Error handling
 
 ```kotlin
 import com.synapser.entry.models.EntrySDKError
 import com.synapser.entry.models.EntrySDKErrorCode
 
-fun handleError(e: EntrySDKError) {
+fun handleEntryError(e: EntrySDKError) {
     when (e.code) {
         EntrySDKErrorCode.USER_NOT_FOUND ->
+            // User passed liveness but is not registered — prompt to register
             promptRegistration()
-        EntrySDKErrorCode.LIVENESS_CHECK_FAILED ->
-            showMessage("Liveness check failed. Please try again.")
+        EntrySDKErrorCode.LIVENESS_CHECK_FAILED -> {
+            // NOTE: The SDK may return LIVENESS_CHECK_FAILED when camera permission has not been
+            // granted, instead of CAMERA_ACCESS_DENIED. Always inspect e.message to distinguish
+            // the two cases.
+            val isCameraPermissionIssue = e.message.contains("permission", ignoreCase = true) ||
+                e.message.contains("camera", ignoreCase = true)
+            if (isCameraPermissionIssue) {
+                showCameraPermissionInstructions()
+            } else {
+                // Liveness rejected — show tips and allow retry
+                showMessage("Please try again in better lighting.")
+            }
+        }
         EntrySDKErrorCode.CAMERA_ACCESS_DENIED ->
-            showCameraInstructions()
+            // Direct user to App Settings → Permissions → Camera
+            showCameraPermissionInstructions()
         EntrySDKErrorCode.USER_CANCELLED ->
+            // User dismissed the UI — show alternative login
             showLoginOptions()
         EntrySDKErrorCode.NETWORK_ERROR ->
             showOfflineMessage()
+        EntrySDKErrorCode.INVALID_APP_NAME ->
+            // App name mismatch — check initialize() call
+            Log.e("Entry", "App name not registered: ${e.message}")
         else ->
-            showError(e.userMessage ?: e.message ?: "An error occurred")
+            showError(e.userMessage)
     }
 }
 ```
 
-## 6) Upgrading the SDK
+## Security
 
-Update the version in your `build.gradle.kts` and sync the project:
+- **Never commit GitHub credentials** — keep `github.username` and `github.token` in `~/.gradle/gradle.properties`, which is outside the project directory. Never add them to `gradle.properties` inside the project (that file gets committed).
+- **Never log the user object** — `identifyUser()` returns PII (name, ID). Do not pass it to `Log.d()`, Firebase Crashlytics, or Sentry without stripping sensitive fields.
+- **Store any session tokens in `EncryptedSharedPreferences`** — not plain `SharedPreferences`. Plain preferences are stored unencrypted on the device filesystem.
+- **Use the `TEST` environment during development** — never use `LIVE` in dev builds. This prevents polluting production face data.
 
-```kotlin
-implementation("com.synapser:entry-sdk:<new-version>")
-```
+## Common mistakes — do not do these
 
-Test the identify and registration flows after upgrading.
+- **Do not call the Entry API directly** — `identifyUser()` is the only integration point needed
+- **Do not commit GitHub credentials** — keep credentials in `~/.gradle/gradle.properties`, not in the project
+- **Do not use `LIVE` during development** — always use `TEST` to avoid affecting production data
+- **Do not test on the emulator** — liveness requires a physical device with a front camera
+- **Do not forget to accept the GitHub org invitation** — Gradle cannot resolve the package until you accept it
+- **Do not use `EntrySDK.configure()`** — the method is `EntrySDK.initialize()`. `configure()` does not exist.
+- **Do not call `EntrySDK.identifyUser()` directly** — always go through `EntrySDK.getInstance().identifyUser()`
+- **Do not configure the SDK multiple times** — call `initialize()` once in `Application.onCreate()`, not in Activity
+- **Do not forget to declare the `Application` class** in `AndroidManifest.xml`
+- **Do not keep `minSdk` below the SDK requirement** — for example, `com.synapser:entry-sdk:3.1.13` requires `minSdk = 24`, so an app with `minSdk = 21` will fail to build
 
-## 7) Troubleshooting
+## Upgrading the SDK
 
-### Package fails to resolve
+Update the version string in `build.gradle.kts` and sync Gradle. Test the identify and registration flows after upgrading.
 
-- Confirm your `gradle.properties` contains valid GitHub credentials.
-- Your PAT must have `read:packages` scope.
-- Your GitHub account must have accepted the `synapser-sdk-distribution` org invitation.
+## Links
 
-### Camera permission denied
-
-The SDK requests the `CAMERA` permission at runtime. If the user has permanently denied it, direct them to App Settings → Permissions.
-
-### Liveness fails on device
-
-- Confirm the device has a working front camera.
-- Ensure adequate lighting.
-- Emulators are not supported — use a physical device.
-
-### Build fails after upgrade
-
-Clean and rebuild: **Build → Clean Project**, then **Build → Rebuild Project**.
-
-## 8) Verification checklist
-
-| Step | Action                             | Expected result                                       |
-| ---- | ---------------------------------- | ----------------------------------------------------- |
-| 1    | Sync Gradle                        | No dependency resolution errors                       |
-| 2    | Build the project                  | No compile errors                                     |
-| 3    | Run on a physical device           | App launches, SDK initialises                         |
-| 4    | Trigger **Identify with Register** | Liveness UI appears; user is identified or registered |
-| 5    | Trigger **Identify Only**          | Liveness UI appears; registered user is identified    |
-
-## 9) Support
-
-Contact [support@synapser.com](mailto:support@synapser.com) with:
-
-- Your app's package name and environment
-- Android version and device model
-- The full error message or error code
-- Steps to reproduce
+- Full integration guide: <https://synapser-limited.github.io/entry-sdk-docs/integration/android/>
+- Client onboarding: <https://synapser-limited.github.io/entry-sdk-docs/getting-started/client-onboarding/>
+- Platform requirements: <https://synapser-limited.github.io/entry-sdk-docs/getting-started/requirements/>
