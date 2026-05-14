@@ -5,154 +5,164 @@ nav_order: 7
 parent: Integration Guides
 ---
 
-# iOS SDK Integration Guide
+# Entry iOS SDK — AI Integration Context
 
-This guide covers everything you need to integrate the Entry iOS SDK into your application for biometric identity verification.
+## What is Entry?
 
-## Requirements
+Entry is a **biometric identity verification SDK**. It is a **UI component** — not a raw API. You call `identifyUser()`, the SDK presents its own liveness and face-matching UI, and it returns a user object or throws an error. Do not call the Entry API directly.
 
-- iOS 14.0+
-- Xcode 14+
-- Swift 5.7+
-- Camera-capable device (simulator not supported for liveness)
+## Key facts
 
-## 1) Getting access
+- Distributed as a **Swift Package Manager binary** via a private GitHub repository
+- SDK is a shared singleton — configure once via `EntrySDKClient.shared.configure()`
+- Async/await API — all public methods are `async throws`
+- Errors conform to a typed protocol with an error code — not generic `Error`
+- Requires a **physical device** with a front camera — the iOS simulator is not supported
+- Requires `NSCameraUsageDescription` in `Info.plist`
 
-The Entry iOS SDK is distributed as a pre-built binary via a private Swift Package Manager repository. To get access:
+## Before you can use Entry
 
-1. Provide the Entry team with:
-   - Your **GitHub username** (each developer who needs access)
-   - Your application's **bundle identifier** (e.g. `com.yourcompany.yourapp`)
-2. The Entry team will grant your GitHub account read access to the SDK package repository and provide you with the **package URL**.
+Two prerequisites — done by the app owner, not the integrating developer:
 
-> You will receive an invitation to the private repository on GitHub. Accept it before proceeding.
+1. The app's **bundle identifier** (e.g. `com.yourcompany.yourapp`) must be registered with the Entry team
+2. Each developer's **GitHub account** must be invited to the `synapser-sdk-distribution` org
 
-## 2) Adding the SDK to your project
+Contact <support@synapser.com> for both. Accept the GitHub org invitation before trying to add the package in Xcode.
 
-1. Open your iOS project in Xcode.
-2. Go to **File → Add Package Dependencies…**
-3. Enter the package URL provided by the Entry team.
-4. Set the dependency rule to **Up to Next Major Version**.
-5. Add the `EntrySDK` library to your application target.
+## Environment requirements
 
-## 3) Required permissions
+| Requirement           | Minimum                                                                                   |
+| --------------------- | ----------------------------------------------------------------------------------------- |
+| OS                    | **macOS only** — Xcode is macOS-only, iOS development is not possible on Windows or Linux |
+| Xcode                 | 14+                                                                                       |
+| Swift                 | 5.7+                                                                                      |
+| iOS deployment target | 14.0+                                                                                     |
+| Device                | Physical iPhone with front camera — the iOS Simulator is not supported                    |
 
-Add the following to your `Info.plist`:
+## Adding the SDK (Swift Package Manager)
 
-| Key                        | Required | Purpose                                  |
-| -------------------------- | -------- | ---------------------------------------- |
-| `NSCameraUsageDescription` | Yes      | Liveness detection uses the front camera |
+1. In Xcode: **File → Add Package Dependencies…**
+2. Enter the package URL provided by the Entry team
+3. Dependency rule: **Up to Next Major Version**
+4. Add the `EntrySDK` library to your application target
 
-Example:
+You must be signed into GitHub in **Xcode → Settings → Accounts** with your invited account.
+
+## Required — Info.plist permission
 
 ```xml
 <key>NSCameraUsageDescription</key>
 <string>Entry needs camera access for identity verification.</string>
 ```
 
-## 4) SDK setup
+The App Store will reject the app without this key. Add it before first TestFlight build.
 
-### Configure on app startup
+## Configuration (do this once, at app startup)
 
-Call `configure` once, typically in your `AppDelegate` or app entry point:
+Call `configure` once in your `AppDelegate` or app entry point:
 
 ```swift
 import EntrySDK
 
 EntrySDKClient.shared.configure(
-    appName: "<your-app-name>",   // provided by the Entry team
-    environment: .test             // .test or .live
+    appName: "your-app-name",  // MUST match the name registered with the Entry team
+    environment: .test          // .test for development, .live for production
 )
 ```
 
-| Environment | Purpose                             |
-| ----------- | ----------------------------------- |
-| `.test`     | Integration testing and development |
-| `.live`     | Production                          |
+| Environment | Use for                        |
+| ----------- | ------------------------------ |
+| `.test`     | Development and integration QA |
+| `.live`     | Production                     |
 
-> Start with `.test` during development. Switch to `.live` for production builds.
+Always use `.test` during development. Switch to `.live` only in production builds.
 
-### Identify user (with registration fallback)
+## Identifying a user (with registration fallback)
 
-If the user is not recognized, the SDK will register them automatically:
+Standard flow. If the user is not recognised, they are registered automatically.
 
 ```swift
-let user = try await EntrySDKClient.shared.identifyUser(
-    registerIfNotFound: true,
-    presenter: viewController
-)
+do {
+    let user = try await EntrySDKClient.shared.identifyUser(
+        registerIfNotFound: true,
+        presenter: self   // the UIViewController presenting the SDK UI
+    )
+    // user.entryUserId, user.firstName, user.lastName, etc.
+    print("Identified:", user.entryUserId)
+} catch {
+    handleEntryError(error)
+}
 ```
 
-### Identify only (no registration)
+## Identifying a user (no registration)
 
-Returns an error if the user is not already registered:
+Throws if the user is not already registered.
 
 ```swift
 let user = try await EntrySDKClient.shared.identifyUser(
     registerIfNotFound: false,
-    presenter: viewController
+    presenter: self
 )
 ```
 
-The `presenter` parameter is the `UIViewController` that the SDK will present its liveness UI from.
+## Error handling
 
-## 5) Upgrading the SDK
+Catch errors and check the error code to respond appropriately.
 
-With the recommended `Up to Next Major` dependency rule, upgrading is straightforward:
+```swift
+func handleEntryError(_ error: Error) {
+    guard let sdkError = error as? EntrySDKError else {
+        // Non-SDK error
+        showAlert("An unexpected error occurred.")
+        return
+    }
+    switch sdkError.code {
+    case .userNotFound:
+        // User is not registered — prompt them to register
+        break
+    case .livenessCheckFailed:
+        // Liveness rejected — show lighting/positioning advice and offer retry
+        break
+    case .cameraAccessDenied:
+        // User denied camera — direct to Settings → Privacy → Camera
+        break
+    case .userCancelled:
+        // User closed the UI — show alternative login options
+        break
+    case .networkError:
+        // No connectivity
+        break
+    case .invalidAppName:
+        // App name mismatch — check configure() call
+        break
+    default:
+        showAlert(sdkError.localizedDescription)
+    }
+}
+```
 
-1. In Xcode: **File → Packages → Resolve Package Versions**
-2. Build and test the identify and registration flows.
-3. If you encounter a regression, temporarily pin to the previous version with `exact:` and report the issue to the Entry team.
+## Security
 
-## 6) Troubleshooting
+- **Never commit the GitHub PAT** — store it in Xcode's credential manager or your CI secrets. A PAT in a committed `.netrc` or `~/.netrc` file is a critical credential leak.
+- **Never log the user object** — `identifyUser()` returns PII (name, ID). Do not pass it to `print()`, Crashlytics, or Sentry without stripping sensitive fields.
+- **Store any session tokens in the Keychain** — not in `UserDefaults`. `UserDefaults` is not encrypted and can be read by other processes on a jailbroken device.
+- **Use the `.test` environment during development** — never use `.live` in dev builds. This prevents polluting production face data.
 
-### Package fails to resolve
+## Common mistakes — do not do these
 
-- **Accept the GitHub invitation.** You must accept the repository invite before Xcode can access the package.
-- **Authenticate Xcode with GitHub.** Go to Xcode → Settings → Accounts and confirm your GitHub account is signed in.
-- **Corporate network/proxy.** Ensure your network allows access to `github.com`.
+- **Do not call the Entry API directly** — `identifyUser()` is the only integration point needed
+- **Do not skip `NSCameraUsageDescription`** — the app will crash at runtime without it
+- **Do not use `.live` during development** — always use `.test` to avoid affecting production data
+- **Do not test on the simulator** — liveness requires a physical device with a front camera
+- **Do not forget to accept the GitHub org invitation** — Xcode cannot resolve the package until you accept it
+- **Do not configure the SDK multiple times** — call `configure()` once at app startup, not before each `identifyUser()` call- **Do not use `EntrySDK.shared`** — the correct class is `EntrySDKClient.shared`
 
-### Binary download fails after resolution
+## Upgrading the SDK
 
-- Check your network connection — the binary artifact is downloaded separately from the package manifest.
-- Try resetting Xcode's package cache: **File → Packages → Reset Package Caches**, then resolve again.
+With the recommended `Up to Next Major` rule, upgrade in Xcode: **File → Packages → Resolve Package Versions**. Then test the identify and registration flows before shipping.
 
-### Build succeeds but liveness fails at runtime
+## Links
 
-- Ensure you are running on a **physical device** — the camera is required for liveness and is not available on the simulator.
-- Verify `NSCameraUsageDescription` is set in `Info.plist`.
-- Confirm the correct `environment` is set in `configure()`.
-
-### General cache reset
-
-If Xcode behaves unexpectedly with package resolution:
-
-1. **File → Packages → Reset Package Caches**
-2. **File → Packages → Resolve Package Versions**
-3. Clean build folder: **Product → Clean Build Folder** (⇧⌘K)
-
-## 7) Verification checklist
-
-Use this after initial setup or after upgrading to confirm everything works end-to-end.
-
-| Step | Action                                                 | Expected result                                       |
-| ---- | ------------------------------------------------------ | ----------------------------------------------------- |
-| 1    | Add package in Xcode using the URL from the Entry team | Package resolves without errors                       |
-| 2    | Build the project                                      | No download or checksum errors                        |
-| 3    | Run on a physical device                               | App launches, SDK initializes                         |
-| 4    | Trigger **Identify with Register**                     | Liveness UI appears, user is identified or registered |
-| 5    | Trigger **Identify Only**                              | Liveness UI appears, user is identified               |
-
-## 8) Support
-
-If you encounter issues not covered here, contact the Entry team with:
-
-- Your GitHub username
-- Your app's bundle identifier
-- Xcode version
-- iOS version of test device
-- The error message or screenshot
-
----
-
-> **Dual-maintained file:** This document is also present at `entry-ios-sdk-binary/IOS_INTEGRATION_GUIDE.md` for SPM consumers who read integration guides directly from the binary distribution repo. Any change to this file must be mirrored there. See [CONTRIBUTING.md](../../CONTRIBUTING.md).
+- Full integration guide: <https://synapser-limited.github.io/entry-sdk-docs/integration/ios/>
+- Client onboarding: <https://synapser-limited.github.io/entry-sdk-docs/getting-started/client-onboarding/>
+- Platform requirements: <https://synapser-limited.github.io/entry-sdk-docs/getting-started/requirements/>
