@@ -87,6 +87,8 @@ parent: Integration Guides
 - Only encrypted templates are stored in the secure backend
 - Browser data is cleared on session end
 - Implement appropriate session timeouts and clear sensitive data on logout
+- **Do not log the user object** returned by `identifyUser()` — it contains PII (name, ID number, date of birth). Strip sensitive fields before passing data to analytics or error tracking tools such as Sentry
+- **Do not store session tokens in `localStorage`** — `localStorage` is accessible to any script on the page. Use `sessionStorage` or an in-memory variable instead
 
 ### Audit logging
 
