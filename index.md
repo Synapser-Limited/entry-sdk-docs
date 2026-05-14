@@ -38,25 +38,17 @@ Entry enables **passwordless authentication** using facial biometrics with activ
 
 ## Platform Guides
 
-| Platform                  | Integration Guide                            | Quick Reference                                      |
-|:--------------------------|:---------------------------------------------|:-----------------------------------------------------|
-| 🌐 Web (TypeScript/React) | [Web Integration](./integration/web)         | [Quick Reference](./integration/web-quick-reference) |
-| 🍎 iOS (Swift)            | [iOS Integration](./integration/ios)         | —                                                    |
-| 🤖 Android (Kotlin)       | [Android Integration](./integration/android) | —                                                    |
-
-## Additional Web SDK Resources
-
-| Documentation                                           | Description                            |
-|:--------------------------------------------------------|:---------------------------------------|
-| 🔒 [Security](./integration/web-security)               | Security guidelines and best practices |
-| ⚠️ [Error Handling](./integration/web-error-handling)   | Error codes and handling strategies    |
-| 📖 [Use Cases](./integration/web-use-cases)             | Common integration scenarios           |
-| 🔧 [Troubleshooting](./integration/web-troubleshooting) | Common issues and debugging tips       |
+| Platform                   | Integration Guide                                      | Quick Reference                                      |
+| :------------------------- | :----------------------------------------------------- | :--------------------------------------------------- |
+| 🌐 Web (TypeScript/React) | [Web Integration](./integration/web)                   | [Quick Reference](./integration/web-quick-reference) |
+| 🍎 iOS (Swift)            | [iOS Integration](./integration/ios)                   | —                                                    |
+| 🤖 Android (Kotlin)       | [Android Integration](./integration/android)           | —                                                    |
+| 📱 React Native           | [React Native Integration](./integration/react-native) | —                                                    |
 
 ## Other Resources
 
-| Documentation               | Description                       |
-|:----------------------------|:----------------------------------|
+| Documentation                | Description                       |
+| :--------------------------- | :-------------------------------- |
 | 📋 [Changelog](./changelog) | Version history and release notes |
 | 📄 [License](./license)     | Software license terms            |
 
