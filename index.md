@@ -56,12 +56,12 @@ Entry enables **passwordless authentication** using facial biometrics with activ
 
 | Documentation                                                                                                                                           | Description                          |
 | :------------------------------------------------------------------------------------------------------------------------------------------------------ | :----------------------------------- |
-| 🤖 <a href="https://synapser-limited.github.io/entry-sdk-docs/downloads/web-instructions-file.md" download="web-instructions-file.md">Web AI Instructions</a> | AI context file for Web SDK |
-| 🍎 <a href="https://synapser-limited.github.io/entry-sdk-docs/downloads/ios-instructions-file.md" download="ios-instructions-file.md">iOS AI Instructions</a> | AI context file for iOS SDK |
-| 🤖 <a href="https://synapser-limited.github.io/entry-sdk-docs/downloads/android-instructions-file.md" download="android-instructions-file.md">Android AI Instructions</a> | AI context file for Android SDK |
-| 📱 <a href="https://synapser-limited.github.io/entry-sdk-docs/downloads/react-native-instructions-file.md" download="react-native-instructions-file.md">React Native AI Instructions</a> | AI context file for React Native SDK |
-| 📄 <a href="https://synapser-limited.github.io/entry-sdk-docs/downloads/prompt-library.md" download="prompt-library.md">Prompt Library</a> | AI prompt library for Entry SDK |
-| ✅ <a href="https://synapser-limited.github.io/entry-sdk-docs/downloads/integration-checklist.md" download="integration-checklist.md">Integration Checklist</a> | Integration checklist for Entry SDK |
+| 🤖 <a href="https://synapser-limited.github.io/entry-sdk-docs/downloads/web-instructions-file.txt" download="web-instructions-file.md">Web AI Instructions</a> | AI context file for Web SDK |
+| 🍎 <a href="https://synapser-limited.github.io/entry-sdk-docs/downloads/ios-instructions-file.txt" download="ios-instructions-file.md">iOS AI Instructions</a> | AI context file for iOS SDK |
+| 🤖 <a href="https://synapser-limited.github.io/entry-sdk-docs/downloads/android-instructions-file.txt" download="android-instructions-file.md">Android AI Instructions</a> | AI context file for Android SDK |
+| 📱 <a href="https://synapser-limited.github.io/entry-sdk-docs/downloads/react-native-instructions-file.txt" download="react-native-instructions-file.md">React Native AI Instructions</a> | AI context file for React Native SDK |
+| 📄 <a href="https://synapser-limited.github.io/entry-sdk-docs/downloads/prompt-library.txt" download="prompt-library.md">Prompt Library</a> | AI prompt library for Entry SDK |
+| ✅ <a href="https://synapser-limited.github.io/entry-sdk-docs/downloads/integration-checklist.txt" download="integration-checklist.md">Integration Checklist</a> | Integration checklist for Entry SDK |
 
 ## Other Resources
 
