@@ -11,11 +11,22 @@ Ready-to-use files for AI coding assistants (GitHub Copilot, Cursor, etc.) to in
 
 Drop the relevant instructions file into your AI assistant's context window before starting an integration. Each file gives the AI the essential facts it needs: what Entry is, how to install and configure the SDK, the correct integration sequence, and the mistakes to avoid.
 
-| File                                                              | Use for                                               |                                                         Download                                                          |
-| ----------------------------------------------------------------- | ----------------------------------------------------- | :-----------------------------------------------------------------------------------------------------------------------: |
-| [Web Instructions File](web-instructions-file/)                   | Integrating Entry into a React / web app              |     [⬇](https://raw.githubusercontent.com/Synapser-Limited/entry-sdk-docs/main/ai-context/web-instructions-file.md)      |
-| [iOS Instructions File](ios-instructions-file/)                   | Integrating Entry into an iOS (Swift) app             |     [⬇](https://raw.githubusercontent.com/Synapser-Limited/entry-sdk-docs/main/ai-context/ios-instructions-file.md)      |
-| [Android Instructions File](android-instructions-file/)           | Integrating Entry into an Android (Kotlin) app        |   [⬇](https://raw.githubusercontent.com/Synapser-Limited/entry-sdk-docs/main/ai-context/android-instructions-file.md)    |
-| [React Native Instructions File](react-native-instructions-file/) | Integrating Entry into a React Native / Expo app      | [⬇](https://raw.githubusercontent.com/Synapser-Limited/entry-sdk-docs/main/ai-context/react-native-instructions-file.md) |
-| [Prompt Library](prompt-library/)                                 | Copy-paste prompts that produce a correct integration |         [⬇](https://raw.githubusercontent.com/Synapser-Limited/entry-sdk-docs/main/ai-context/prompt-library.md)         |
-| [Integration Checklist](integration-checklist/)                   | Verify an integration is correct before going live    |     [⬇](https://raw.githubusercontent.com/Synapser-Limited/entry-sdk-docs/main/ai-context/integration-checklist.md)      |
+| Platform                                                                                                        | Integration Guide                                                        |
+| :-------------------------------------------------------------------------------------------------------------- | :----------------------------------------------------------------------- |
+| 🌐 Web (TypeScript/React)                                                                                      | [Web Integration](./ai-context/web-instructions-file/)                   |
+| 🍎 iOS (Swift)                                                                                                 | [iOS Integration](./ai-context/ios-instructions-file/)                   |
+| 🤖 Android (Kotlin)                                                                                            | [Android Integration](./ai-context/android-instructions-file/)           |
+| 📱 React Native                                                                                                | [React Native Integration](./ai-context/react-native-instructions-file/) |
+| � [Prompt Library](https://synapser-limited.github.io/entry-sdk-docs/ai-context/prompt-library/)               | AI prompt library for Entry SDK                                          |
+| ✅ [Integration Checklist](https://synapser-limited.github.io/entry-sdk-docs/ai-context/integration-checklist/) | Integration checklist for Entry SDK                                      |
+
+
+
+| Downloadable Documents                                                                                                                                                                    | Description                          |
+| :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :----------------------------------- |
+| 🤖 <a href="https://synapser-limited.github.io/entry-sdk-docs/downloads/web-instructions-file.md" download="web-instructions-file.md">Web AI Instructions</a>                            | AI context file for Web SDK          |
+| 🍎 <a href="https://synapser-limited.github.io/entry-sdk-docs/downloads/ios-instructions-file.md" download="ios-instructions-file.md">iOS AI Instructions</a>                            | AI context file for iOS SDK          |
+| 🤖 <a href="https://synapser-limited.github.io/entry-sdk-docs/downloads/android-instructions-file.md" download="android-instructions-file.md">Android AI Instructions</a>                | AI context file for Android SDK      |
+| 📱 <a href="https://synapser-limited.github.io/entry-sdk-docs/downloads/react-native-instructions-file.md" download="react-native-instructions-file.md">React Native AI Instructions</a> | AI context file for React Native SDK |
+| 📄 <a href="https://synapser-limited.github.io/entry-sdk-docs/downloads/prompt-library.md" download="prompt-library.md">Prompt Library</a>                                               | AI prompt library for Entry SDK      |
+| ✅ <a href="https://synapser-limited.github.io/entry-sdk-docs/downloads/integration-checklist.md" download="integration-checklist.md">Integration Checklist</a>                           | Integration checklist for Entry SDK  |
