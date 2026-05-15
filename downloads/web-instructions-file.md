@@ -1,7 +1,3 @@
----
-applyTo: "**"
----
-
 # Entry Web SDK — AI Integration Context
 
 ## What is Entry?
