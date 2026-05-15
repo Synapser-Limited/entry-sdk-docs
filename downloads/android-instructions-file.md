@@ -1,7 +1,3 @@
----
-applyTo: "**"
----
-
 # Entry Android SDK — AI Integration Context
 
 ## What is Entry?
