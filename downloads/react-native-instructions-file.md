@@ -1,7 +1,3 @@
----
-applyTo: "**"
----
-
 # Entry React Native — AI Integration Context
 
 ## What is Entry?
