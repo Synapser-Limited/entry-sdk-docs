@@ -40,10 +40,10 @@ Entry enables **passwordless authentication** using facial biometrics with activ
 
 | Platform                   | Integration Guide                                                      |
 | :------------------------- | :--------------------------------------------------------------------- |
-| 🌐 Web (TypeScript/React)  | [Web Integration](./ai-context/web-instructions-file/)                 |
-| 🍎 iOS (Swift)             | [iOS Integration](./-context/ios-instructions-file/)                   |
-| 🤖 Android (Kotlin)        | [Android Integration](./-context/android-instructions-file/)           |
-| 📱 React Native            | [React Native Integration](./-context/react-native-instructions-file/) |
+| 🌐 Web (TypeScript/React) | [Web Integration](./ai-context/web-instructions-file/)                 |
+| 🍎 iOS (Swift)            | [iOS Integration](./ai-context/ios-instructions-file/)                 |
+| 🤖 Android (Kotlin)       | [Android Integration](./ai-context/android-instructions-file/)         |
+| 📱 React Native           | [React Native Integration](./ai-context/react-native-instructions-file/) |
 
 ## AI Prompt Library
 
