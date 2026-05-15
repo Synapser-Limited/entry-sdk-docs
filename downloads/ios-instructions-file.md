@@ -1,7 +1,3 @@
----
-applyTo: "**"
----
-
 # Entry iOS SDK — AI Integration Context
 
 ## What is Entry?
