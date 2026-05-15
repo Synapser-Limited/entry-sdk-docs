@@ -17,6 +17,7 @@ A set of copy-paste prompts for AI coding assistants (Cursor, Copilot, etc.). Ea
    - Web: `entry-web.instructions.md`
    - iOS: `entry-ios.instructions.md`
    - Android: `entry-android.instructions.md`
+   - React Native: `entry-react-native.instructions.md`
 2. Copy the prompt below and paste it into the assistant
 3. Review the output against the [integration checklist](integration-checklist.md) before shipping
 
