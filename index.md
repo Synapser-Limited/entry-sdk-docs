@@ -38,19 +38,38 @@ Entry enables **passwordless authentication** using facial biometrics with activ
 
 ## Platform Guides
 
-| Platform                   | Integration Guide                                      | Quick Reference                                      |
-| :------------------------- | :----------------------------------------------------- | :--------------------------------------------------- |
-| 🌐 Web (TypeScript/React) | [Web Integration](./integration/web)                   | [Quick Reference](./integration/web-quick-reference) |
-| 🍎 iOS (Swift)            | [iOS Integration](./integration/ios)                   | —                                                    |
-| 🤖 Android (Kotlin)       | [Android Integration](./integration/android)           | —                                                    |
-| 📱 React Native           | [React Native Integration](./integration/react-native) | —                                                    |
+| Platform                   | Integration Guide                                                      |
+| :------------------------- | :--------------------------------------------------------------------- |
+| 🌐 Web (TypeScript/React)  | [Web Integration](./ai-context/web-instructions-file/)                 |
+| 🍎 iOS (Swift)             | [iOS Integration](./-context/ios-instructions-file/)                   |
+| 🤖 Android (Kotlin)        | [Android Integration](./-context/android-instructions-file/)           |
+| 📱 React Native            | [React Native Integration](./-context/react-native-instructions-file/) |
+
+## AI Prompt Library
+
+| Documentation                                                                                                                                                                                            | Description                          |
+| :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :----------------------------------- |
+| � [Prompt Library](https://synapser-limited.github.io/entry-sdk-docs/ai-context/prompt-library/)                                                                           | AI prompt library for Entry SDK      |
+| ✅ [Integration Checklist](https://synapser-limited.github.io/entry-sdk-docs/ai-context/integration-checklist/)                                                     | Integration checklist for Entry SDK  |
+
+## Downloadable AI Context Files
+
+| Documentation                                                                                                                                                                                            | Description                          |
+| :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :----------------------------------- |
+| 🤖 [Web AI Instructions](https://raw.githubusercontent.com/Synapser-Limited/entry-sdk-docs/main/ai-context/web-instructions-file.md){: download="web-instructions-file.md" }                             | AI context file for Web SDK          |
+| 🍎 [iOS AI Instructions](https://raw.githubusercontent.com/Synapser-Limited/entry-sdk-docs/main/ai-context/ios-instructions-file.md){: download="ios-instructions-file.md" }                             | AI context file for iOS SDK          |
+| 🤖 [Android AI Instructions](https://raw.githubusercontent.com/Synapser-Limited/entry-sdk-docs/main/ai-context/android-instructions-file.md){: download="android-instructions-file.md" }                 | AI context file for Android SDK      |
+| 📱 [React Native AI Instructions](https://raw.githubusercontent.com/Synapser-Limited/entry-sdk-docs/main/ai-context/react-native-instructions-file.md){: download="react-native-instructions-file.md" }  | AI context file for React Native SDK |
+| � [Prompt Library](https://synapser-limited.github.io/entry-sdk-docs/ai-context/prompt-library/){: download="prompt-library" }                                                                           | AI prompt library for Entry SDK      |
+| ✅ [Integration Checklist](https://synapser-limited.github.io/entry-sdk-docs/ai-context/integration-checklist/){: download="integration-checklist" }                                                     | Integration checklist for Entry SDK  |
 
 ## Other Resources
 
-| Documentation                | Description                       |
-| :--------------------------- | :-------------------------------- |
-| 📋 [Changelog](./changelog) | Version history and release notes |
-| 📄 [License](./license)     | Software license terms            |
+| Documentation                                                                                                 | Description                       |
+| :------------------------------------------------------------------------------------------------------------ | :-------------------------------- |
+| 🚀 [Client Onboarding](https://synapser-limited.github.io/entry-sdk-docs/getting-started/client-onboarding/)  | Step-by-step onboarding guide     |
+| � [Changelog](./changelog)                                                                                    | Version history and release notes |
+| 📄 [License](./license)                                                                                       | Software license terms            |
 
 ---
 
