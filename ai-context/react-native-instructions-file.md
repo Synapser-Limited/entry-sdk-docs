@@ -40,7 +40,7 @@ Contact support@synapser.com for both. Accept the GitHub org invitation before t
 | Android Studio | Hedgehog (2023.1) or later (Android target) |
 | JDK | 11+ |
 | iOS deployment target | 14.0+ |
-| Android minSdk | 24 (Android 7.0) — for current Entry SDK releases such as `3.1.36` |
+| Android minSdk | 24 (Android 7.0) — for current Entry SDK releases such as `3.1.40` |
 | Device | Physical device required for both iOS and Android — simulators/emulators not supported |
 | Expo Go | Not supported — use a dev build (`npx expo run:ios`) or bare workflow |
 
@@ -115,7 +115,7 @@ Version number is provided by the Entry team.
 
 If you see an error like:
 ```text
-uses-sdk:minSdkVersion 21 cannot be smaller than version 24 declared in library [com.synapser:entry-sdk:3.1.36]
+uses-sdk:minSdkVersion 21 cannot be smaller than version 24 declared in library [com.synapser:entry-sdk:3.1.40]
 ```
 update your app module's `build.gradle.kts`:
 ```kotlin
@@ -503,4 +503,4 @@ eas build --platform android --profile development
 - **Testing on Expo Go** — native modules are not available in Expo Go; if `NativeModules.EntryBridgeModule` is undefined, you are running in Expo Go
 - **Testing on simulator / emulator** — liveness requires a physical device with a front camera
 - **Calling `configure()` / `identifyUser()` multiple times** — call `configure()` (iOS) / the JS `configure()` wrapper (Android) exactly once at app startup. Never call it before each `identifyUser()` invocation.
-- **Keeping Android minSdk below the SDK requirement** — `com.synapser:entry-sdk:3.1.36` requires `minSdk = 24`; an app with `minSdk = 21` will fail to build
+- **Keeping Android minSdk below the SDK requirement** — `com.synapser:entry-sdk:3.1.40` requires `minSdk = 24`; an app with `minSdk = 21` will fail to build
