@@ -37,10 +37,10 @@ Contact support@synapser.com for both. Accept the GitHub org invitation before s
 | JDK            | 11+ (Gradle 7+ requires it)                                               |
 | Kotlin         | 1.7+                                                                      |
 | Gradle         | 7.0+                                                                      |
-| minSdk         | 24 (Android 7.0) for current Entry SDK releases such as `3.1.41`          |
+| minSdk         | 24 (Android 7.0) for current Entry SDK releases such as `3.1.42`          |
 | Device         | Physical Android device with front camera — the emulator is not supported |
 
-> If your app sets `minSdk` lower than the Entry SDK's declared minimum, Gradle will fail manifest merging. For example, `com.synapser:entry-sdk:3.1.41` requires `minSdk 24`.
+> If your app sets `minSdk` lower than the Entry SDK's declared minimum, Gradle will fail manifest merging. For example, `com.synapser:entry-sdk:3.1.42` requires `minSdk 24`.
 
 ## Adding the SDK (Gradle / Maven)
 
@@ -88,7 +88,7 @@ Version number is provided by the Entry team.
 
 If you see an error like:
 ```text
-uses-sdk:minSdkVersion 21 cannot be smaller than version 24 declared in library [com.synapser:entry-sdk:3.1.41]
+uses-sdk:minSdkVersion 21 cannot be smaller than version 24 declared in library [com.synapser:entry-sdk:3.1.42]
 ```
 
 update your app module's `build.gradle.kts`:
@@ -268,7 +268,7 @@ fun handleEntryError(e: EntrySDKError) {
 - **Do not call `EntrySDK.identifyUser()` directly** — always go through `EntrySDK.getInstance().identifyUser()`
 - **Do not configure the SDK multiple times** — call `initialize()` once in `Application.onCreate()`, not in Activity
 - **Do not forget to declare the `Application` class** in `AndroidManifest.xml`
-- **Do not keep `minSdk` below the SDK requirement** — for example, `com.synapser:entry-sdk:3.1.41` requires `minSdk = 24`, so an app with `minSdk = 21` will fail to build
+- **Do not keep `minSdk` below the SDK requirement** — for example, `com.synapser:entry-sdk:3.1.42` requires `minSdk = 24`, so an app with `minSdk = 21` will fail to build
 
 ## Upgrading the SDK
 
