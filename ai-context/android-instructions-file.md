@@ -37,7 +37,7 @@ Contact support@synapser.com for both. Accept the GitHub org invitation before s
 | JDK            | 11+ (Gradle 7+ requires it)                                               |
 | Kotlin         | 1.7+                                                                      |
 | Gradle         | 7.0+                                                                      |
-| minSdk         | 24 (Android 7.0) for current Entry SDK releases such as `3.1.40`          |
+| minSdk         | 24 (Android 7.0) for current Entry SDK releases such as `3.1.41`          |
 | Device         | Physical Android device with front camera — the emulator is not supported |
 
 > If your app sets `minSdk` lower than the Entry SDK's declared minimum, Gradle will fail manifest merging. For example, `com.synapser:entry-sdk:3.1.41` requires `minSdk 24`.
