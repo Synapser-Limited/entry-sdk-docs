@@ -41,7 +41,7 @@ Contact <support@synapser.com> for both. Accept the GitHub org invitation before
 | Android Studio        | Hedgehog (2023.1) or later (Android target)                                            |
 | JDK                   | 11+                                                                                    |
 | iOS deployment target | 14.0+                                                                                  |
-| Android minSdk        | 24 (Android 7.0) — for current Entry SDK releases such as `3.1.40`                     |
+| Android minSdk        | 24 (Android 7.0) — for current Entry SDK releases such as `3.1.41`                     |
 | Device                | Physical device required for both iOS and Android — simulators/emulators not supported |
 | Expo Go               | Not supported — use a dev build (`npx expo run:ios`) or bare workflow                  |
 
