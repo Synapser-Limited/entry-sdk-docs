@@ -1,3 +1,10 @@
+---
+layout: default
+title: Web SDK
+nav_order: 1
+parent: Integration Guides
+---
+
 # Entry Web SDK — AI Integration Context
 
 ## What is Entry?
