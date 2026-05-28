@@ -104,7 +104,20 @@ let user = try await EntrySDKClient.shared.identifyUser(
 )
 ```
 
-## Error handling
+## Liveness options (optional)
+
+Both `challengeType` and `passThreshold` are optional. Omitting them falls back to per-client defaults, then global defaults.
+
+```swift
+let user = try await EntrySDKClient.shared.identifyUser(
+    registerIfNotFound: true,
+    presenter: self,
+    challengeType: 2,    // 1 = FaceMovementChallenge, 2 = FaceMovementAndLightChallenge (default)
+    passThreshold: 85    // confidence score 0–100 (default: 80)
+)
+```
+
+**Resolution order**: per-call parameter → per-`ClientApp` default → global default (`challengeType: 2`, `passThreshold: 80`).
 
 Catch errors and check the error code to respond appropriately.
 
