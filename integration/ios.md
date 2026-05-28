@@ -105,7 +105,31 @@ let user = try await EntrySDKClient.shared.identifyUser(
 )
 ```
 
-## Error handling
+## Liveness options (optional)
+
+Pass optional parameters to override liveness behaviour for this session.
+
+```swift
+let user = try await EntrySDKClient.shared.identifyUser(
+    registerIfNotFound: true,
+    presenter: self,
+    challengeType: 2,    // 1 = movement only, 2 = movement + light (default: 2)
+    passThreshold: 85    // minimum confidence score 0–100 (default: 80)
+)
+```
+
+### Resolution order
+
+Both options follow a three-tier fallback:
+
+1. **Per-call override** — value passed directly to `identifyUser` (highest priority)
+2. **Per-client default** — `LivenessChallengeType` / `LivenessPassConfidencePercentageIos` set on your `ClientApp` record
+3. **Global default** — `challengeType` defaults to `2` (movement + light); `passThreshold` defaults to `80`
+
+| Parameter | Type | Values | Default |
+|---|---|---|---|
+| `challengeType` | `Int?` | `1` = movement only, `2` = movement + light | `2` |
+| `passThreshold` | `Int?` | `0`–`100` | `80` |
 
 Catch errors and check the error code to respond appropriately.
 
