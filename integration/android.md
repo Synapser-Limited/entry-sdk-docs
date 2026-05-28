@@ -38,10 +38,10 @@ Contact <support@synapser.com> for both. Accept the GitHub org invitation before
 | JDK            | 11+ (Gradle 7+ requires it)                                               |
 | Kotlin         | 1.7+                                                                      |
 | Gradle         | 7.0+                                                                      |
-| minSdk         | 24 (Android 7.0) for current Entry SDK releases such as `3.1.47`          |
+| minSdk         | 24 (Android 7.0) for current Entry SDK releases such as `3.1.48`          |
 | Device         | Physical Android device with front camera — the emulator is not supported |
 
-> If your app sets `minSdk` lower than the Entry SDK's declared minimum, Gradle will fail manifest merging. For example, `com.synapser:entry-sdk:3.1.47` requires `minSdk 24`.
+> If your app sets `minSdk` lower than the Entry SDK's declared minimum, Gradle will fail manifest merging. For example, `com.synapser:entry-sdk:3.1.48` requires `minSdk 24`.
 
 ## Adding the SDK (Gradle / Maven)
 
@@ -93,7 +93,7 @@ Version number is provided by the Entry team.
 If you see an error like:
 
 ```text
-uses-sdk:minSdkVersion 21 cannot be smaller than version 24 declared in library [com.synapser:entry-sdk:3.1.47]
+uses-sdk:minSdkVersion 21 cannot be smaller than version 24 declared in library [com.synapser:entry-sdk:3.1.48]
 ```
 
 update your app module's `build.gradle.kts`:
@@ -216,7 +216,31 @@ val result = EntrySDK.getInstance().identifyUser(
 )
 ```
 
-## Error handling
+## Liveness options (optional)
+
+Pass optional parameters to override liveness behaviour for this session.
+
+```kotlin
+val result = EntrySDK.getInstance().identifyUser(
+    registerIfNotFound = true,
+    activity = this,
+    challengeType = 2,    // 1 = movement only, 2 = movement + light (default: 2)
+    passThreshold = 85    // minimum confidence score 0–100 (default: 80)
+)
+```
+
+### Resolution order
+
+Both options follow a three-tier fallback:
+
+1. **Per-call override** — value passed directly to `identifyUser` (highest priority)
+2. **Per-client default** — `LivenessChallengeType` / `LivenessPassConfidencePercentageAndroid` set on your `ClientApp` record
+3. **Global default** — `challengeType` defaults to `2` (movement + light); `passThreshold` defaults to `80`
+
+| Parameter | Type | Values | Default |
+|---|---|---|---|
+| `challengeType` | `Int?` | `1` = movement only, `2` = movement + light | `2` |
+| `passThreshold` | `Int?` | `0`–`100` | `80` |
 
 ```kotlin
 import com.synapser.entry.models.EntrySDKError
@@ -275,7 +299,7 @@ fun handleEntryError(e: EntrySDKError) {
 - **Do not call `EntrySDK.identifyUser()` directly** — always go through `EntrySDK.getInstance().identifyUser()`
 - **Do not configure the SDK multiple times** — call `initialize()` once in `Application.onCreate()`, not in Activity
 - **Do not forget to declare the `Application` class** in `AndroidManifest.xml`
-- **Do not keep `minSdk` below the SDK requirement** — for example, `com.synapser:entry-sdk:3.1.47` requires `minSdk = 24`, so an app with `minSdk = 21` will fail to build
+- **Do not keep `minSdk` below the SDK requirement** — for example, `com.synapser:entry-sdk:3.1.48` requires `minSdk = 24`, so an app with `minSdk = 21` will fail to build
 
 ## Upgrading the SDK
 
