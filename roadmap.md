@@ -8,20 +8,28 @@ nav_order: 10
 
 This page outlines planned and in-progress capabilities for the Entry SDK platform. Items are subject to change and do not represent committed delivery dates.
 
-## Configurable liveness challenge thresholds
+## ✅ Configurable liveness challenge thresholds
 
-Allow client applications to configure the confidence threshold that must be met for a liveness session to pass. Today, Entry uses a fixed internal threshold. This feature will expose a per-client configuration so that integrators can tune the trade-off between security strictness and user pass rate to match their specific risk profile.
+Client applications can now configure the confidence threshold that must be met for a liveness session to pass. The threshold can be set at three levels, resolved in this order:
 
-## Configurable liveness challenge type
+1. **Per-session override** — pass `passThreshold` in the `identifyUser()` call (0–100)
+2. **Per-client default** — set `LivenessPassConfidencePercentage` on the `ClientApp` record (per platform: iOS / Android / Web)
+3. **Global default** — environment variable on the Amplify backend (default: **80**)
 
-Allow client applications to select which liveness challenge mode is required:
+## ✅ Configurable liveness challenge type
 
-| Mode             | Description                                                                                                                |
-| ---------------- | -------------------------------------------------------------------------------------------------------------------------- |
-| Movement only    | User performs a head movement (e.g. turn, nod). Lower friction, suitable for lower-risk use cases.                         |
-| Movement + light | User performs a movement and the screen flashes a light sequence. Higher assurance, recommended for higher-risk use cases. |
+Client applications can now select which liveness challenge mode is used:
 
-Clients will be able to set a default mode at the application level and optionally override it per session.
+| Mode             | Value | Description                                                                                                                |
+| ---------------- | ----- | -------------------------------------------------------------------------------------------------------------------------- |
+| Movement only    | `1`   | User performs a head movement (e.g. turn, nod). Lower friction, suitable for lower-risk use cases.                         |
+| Movement + light | `2`   | User performs a movement and the screen flashes a light sequence. Higher assurance, recommended for higher-risk use cases. |
+
+The challenge type resolves in this order:
+
+1. **Per-session override** — pass `challengeType` (`1` or `2`) in the `identifyUser()` call
+2. **Per-client default** — set `LivenessChallengeType` on the `ClientApp` record
+3. **Global default** — `FaceMovementAndLightChallenge` (`2`)
 
 ## Full OIDC compliance
 
