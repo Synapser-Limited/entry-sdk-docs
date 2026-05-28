@@ -31,6 +31,10 @@ Entry enables **passwordless authentication** using facial biometrics with activ
 - **Multi-Platform** — Native SDKs for Web (TypeScript/React), iOS (Swift), and Android (Kotlin)
 - **Enterprise Security** — AWS-powered backend, encrypted data transmission
 
+Entry answers a single question: *who is in front of the camera right now?* Your application launches the SDK, Entry verifies liveness and matches the face, then returns the registered user's identity — including any metadata you attached at registration (employee ID, card number, role, etc.). What you do with that identity — admitting access, writing an attendance record, calling a webhook, querying your own database — is entirely up to you. Entry does not replace your existing database, access control system, or role management; it replaces the mechanism of identity verification.
+
+[Learn how integration works →](./integration/about-integrating-with-entry)
+
 {: .warning }
 > **Physical camera required** — Liveness detection requires a real camera. Simulators and emulators are not supported.
 
