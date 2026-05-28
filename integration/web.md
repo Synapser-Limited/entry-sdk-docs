@@ -118,7 +118,29 @@ Returns `USER_NOT_FOUND` error if the user has not previously registered.
 const user = await sdk.identifyUser(false, container);
 ```
 
-## EntryUser shape
+## Liveness options (optional)
+
+`identifyUser` accepts an optional third argument to override liveness behaviour for this session.
+
+```typescript
+const user = await sdk.identifyUser(true, container, {
+  challengeType: 2,      // 1 = movement only, 2 = movement + light (default: 2)
+  passThreshold: 85,     // minimum confidence score 0–100 (default: 80)
+});
+```
+
+### Resolution order
+
+Both options follow a three-tier fallback:
+
+1. **Per-call override** — value passed in the `options` argument (highest priority)
+2. **Per-client default** — `LivenessChallengeType` / `LivenessPassConfidencePercentageWeb` set on your `ClientApp` record
+3. **Global default** — `challengeType` defaults to `2` (movement + light); `passThreshold` defaults to `80`
+
+| Option | Type | Values | Default |
+|---|---|---|---|
+| `challengeType` | `1 \| 2` | `1` = movement only, `2` = movement + light | `2` |
+| `passThreshold` | `number` | `0`–`100` | `80` |
 
 ```typescript
 interface EntryUser {
