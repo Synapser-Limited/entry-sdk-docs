@@ -116,7 +116,18 @@ Returns `USER_NOT_FOUND` error if the user has not previously registered.
 const user = await sdk.identifyUser(false, container);
 ```
 
-## EntryUser shape
+## Liveness options (optional)
+
+Both `challengeType` and `passThreshold` are optional. Omitting them falls back to per-client defaults, then global defaults.
+
+```typescript
+const user = await sdk.identifyUser(true, container, {
+  challengeType: 2,   // 1 = FaceMovementChallenge, 2 = FaceMovementAndLightChallenge (default)
+  passThreshold: 85,  // confidence score 0–100 (default: 80)
+});
+```
+
+**Resolution order**: per-call option → per-`ClientApp` default → global default (`challengeType: 2`, `passThreshold: 80`).
 
 ```typescript
 interface EntryUser {
